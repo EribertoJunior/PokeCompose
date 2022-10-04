@@ -1,10 +1,8 @@
 package br.com.estudos.pokecompose.viewmodel
 
-import br.com.estudos.pokecompose.model.local.Pokemon
-
-sealed class HomeUiState {
-    object Empy : HomeUiState()
-    object Loading : HomeUiState()
-    class Loaded(val data: List<Pokemon>) : HomeUiState()
-    class Error(val message: String) : HomeUiState()
+sealed class HomeUiState<out H> {
+    object Empy : HomeUiState<Unit>()
+    object Loading : HomeUiState<Unit>()
+    class Loaded<H>(val data: H) : HomeUiState<Any>()
+    class Error(val message: String) : HomeUiState<Unit>()
 }

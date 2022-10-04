@@ -4,10 +4,21 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import br.com.estudos.pokecompose.ui.components.PokemonList
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import br.com.estudos.pokecompose.viewmodel.HomeUiState
@@ -27,21 +38,7 @@ class MainActivity : ComponentActivity() {
 fun App(viewModel: HomeViewModel = getViewModel()) {
     PokeComposeTheme {
         Surface {
-            when(val state = viewModel.homeState.collectAsState().value){
-                HomeUiState.Empy -> {
-                    Toast.makeText(LocalContext.current, "Lista vazia", Toast.LENGTH_SHORT).show()
-                }
-                is HomeUiState.Error -> {
-                    Toast.makeText(LocalContext.current, state.message, Toast.LENGTH_SHORT).show()
-                }
-                is HomeUiState.Loaded -> {
-                    PokemonList(pokemonList = state.data)
-                }
-                HomeUiState.Loading -> {
-                    Toast.makeText(LocalContext.current, "Carregando", Toast.LENGTH_SHORT).show()
-                }
-            }
-            //PokemonItem()
+            PokemonList(pokemonList = viewModel.fetchPokemons().collectAsLazyPagingItems())
         }
     }
 }

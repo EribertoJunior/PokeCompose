@@ -1,40 +1,53 @@
 package br.com.estudos.pokecompose.ui.components
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.samples.listPokemonSample
 
 @Composable
-fun PokemonList(pokemonList: List<Pokemon>) {
+fun PokemonList(pokemonList: LazyPagingItems<Pokemon>) {
 
-    Column(
+    LazyColumn(
         Modifier
-            .verticalScroll(rememberScrollState())
+            //.verticalScroll(rememberScrollState())
+            //.fillMaxHeight()
             .padding(horizontal = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Spacer(modifier = Modifier)
-        pokemonList.forEach { pokemon: Pokemon ->
-            PokemonItem(pokemon = pokemon)
+        items(pokemonList) { pokemon ->
+            pokemon?.let {
+                PokemonItem(pokemon = it)
+            }
         }
-        Spacer(modifier = Modifier)
+
+        when (pokemonList.loadState.append) {
+            is LoadState.Error -> {
+                item {
+
+                }
+            }
+            LoadState.Loading -> {
+                item {
+                    LoadingItem()
+                }
+            }
+            is LoadState.NotLoading -> Unit
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PokemonListPreview() {
-    PokemonList(
-        listPokemonSample
-    )
+    // PokemonList(
+    //     listPokemonSample.asFlow()
+    // )
 }

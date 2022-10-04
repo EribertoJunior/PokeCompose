@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.estudos.pokecompose.R
-import br.com.estudos.pokecompose.extensions.color
+import br.com.estudos.pokecompose.model.api.PokemonApi
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import coil.compose.rememberAsyncImagePainter
@@ -78,7 +78,8 @@ fun PokemonItem(pokemon: Pokemon) {
                         fontSize = 18.sp
                     )
                     Text(
-                        text = "N°${pokemon.id}",
+                        text = "N°",
+                        // text = "N°${pokemon.id}",
                         modifier = Modifier
                             .padding(start = 4.dp)
                             .align(alignment = Alignment.Bottom)
@@ -100,7 +101,7 @@ fun PokemonItemPreview() {
                 TypeColoursEnum.FIRE.color,
                 Color.Transparent
             ),
-            imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/9.png"
+            imageUrl = ""
         )
     )
 }
