@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
 fun App(viewModel: HomeViewModel = getViewModel()) {
     PokeComposeTheme {
         Surface {
-            PokemonList(pokemonList = viewModel.fetchPokemons().collectAsLazyPagingItems())
+            PokemonList(pokemonList = viewModel.stateFlow.collectAsLazyPagingItems())
         }
     }
 }

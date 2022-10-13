@@ -1,8 +1,5 @@
 package br.com.estudos.pokecompose.model.local.enums
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.toUpperCase
-import br.com.estudos.pokecompose.extensions.color
 import java.util.Locale
 
 enum class TypeColoursEnum(val codColor: String) {

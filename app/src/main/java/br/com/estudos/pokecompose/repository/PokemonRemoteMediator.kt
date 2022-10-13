@@ -5,7 +5,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
@@ -17,8 +16,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import retrofit2.await
-import retrofit2.awaitResponse
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -79,7 +76,7 @@ class PokemonRemoteMediator(
                                     colorTypeList = types.map { dataTypes ->
                                         TypeColoursEnum.getTypeFromName(dataTypes.type.name)
                                     },
-                                    imageUrl = sprites.other.home.frontDefault
+                                    imageUrl = sprites.other.officialArtwork.frontDefault
                                 )
                             )
                         }

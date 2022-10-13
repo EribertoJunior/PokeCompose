@@ -14,16 +14,12 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -31,6 +27,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +36,7 @@ import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import coil.compose.rememberAsyncImagePainter
+import java.util.Locale
 
 @Composable
 fun PokemonItem(pokemon: Pokemon) {
@@ -51,7 +49,7 @@ fun PokemonItem(pokemon: Pokemon) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(180.dp)
+                    .width(200.dp)
                     .background(
                         brush = Brush.horizontalGradient(
                             pokemon.colorTypeList
@@ -82,23 +80,30 @@ fun PokemonItem(pokemon: Pokemon) {
                             .padding(top = 8.dp)
                             .align(CenterHorizontally)
                     )
-
                 }
-
             }
 
-            Column(modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 Text(
-                    text = pokemon.name,
+                    text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
                     fontSize = 18.sp,
-                    modifier = Modifier.align(CenterHorizontally).padding(top = 8.dp)
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .padding(top = 8.dp)
                 )
 
                 Row(
-                    modifier = Modifier.padding(top = 8.dp).padding(end = 4.dp).fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp, alignment = CenterHorizontally),
-
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .padding(end = 4.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = 4.dp,
+                        alignment = CenterHorizontally
+                    )
                 ) {
                     pokemon.colorTypeList.forEach {
                         Image(
