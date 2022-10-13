@@ -1,10 +1,15 @@
 package br.com.estudos.pokecompose.model.local
 
-import androidx.compose.ui.graphics.Color
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 
+@Entity
 data class Pokemon(
-    val id: Int,
-    val name: String,
-    val colorTypeList: List<Color>,
-    val imageUrl:String
+    @PrimaryKey var id: Int,
+    var name: String,
+    @TypeConverters(ConverterHelper::class)
+    var colorTypeList: List<TypeColoursEnum>,
+    var imageUrl: String?
 )

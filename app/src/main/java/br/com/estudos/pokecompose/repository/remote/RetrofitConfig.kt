@@ -12,5 +12,5 @@ class RetrofitConfig(private val baseUrl: String, private val context: Context?)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    fun getPokeServide(): PokeService = getRetroInstance().create(PokeService::class.java)
+    fun getPokeServide(): PokemonService = getRetroInstance().create(PokemonService::class.java)
 }

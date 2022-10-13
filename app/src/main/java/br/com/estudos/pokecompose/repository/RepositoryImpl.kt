@@ -1,37 +1,45 @@
 package br.com.estudos.pokecompose.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import br.com.estudos.pokecompose.model.api.PokemonApi
 import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.repository.remote.PokemonDataSource
-import br.com.estudos.pokecompose.samples.listPokemonSample
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import br.com.estudos.pokecompose.repository.PokemonRemoteMediator.Companion.PAGE_SIZE
+import br.com.estudos.pokecompose.repository.local.PokemonDao
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 
-class RepositoryImpl(private val pokemonDataSource: PokemonDataSource) : Repository {
-    fun getPokemonListPagingSource(): Flow<PagingData<PokemonApi>> {
+class RepositoryImpl(
+    private val pokemonRemoteMediator: PokemonRemoteMediator,
+    private val pokemonDao: PokemonDao
+) : Repository {
+    // fun getPokemonListPagingSource(): Flow<PagingData<PokemonApi>> {
+    //     return Pager(
+    //         config = PagingConfig(
+    //             pageSize = PAGE_SIZE,
+    //             maxSize = MAX_SIZE,
+    //             prefetchDistance = PREFETCH_SIZE
+    //         ),
+    //         pagingSourceFactory = { pokemonDataSource }
+    //     ).flow
+    // }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getPokemonList(): Flow<PagingData<Pokemon>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                maxSize = MAX_SIZE,
-                prefetchDistance = PREFETCH_SIZE
+                //maxSize = MAX_SIZE,
+                prefetchDistance = PREFETCH_SIZE,
+                enablePlaceholders = false
             ),
-            pagingSourceFactory = { pokemonDataSource }
+            remoteMediator = pokemonRemoteMediator,
+            pagingSourceFactory = { pokemonDao.getPokemons() }
         ).flow
     }
 
-
     companion object {
-        const val PAGE_SIZE = 10
-        const val PREFETCH_SIZE = 50
-        const val MAX_SIZE = PAGE_SIZE + PREFETCH_SIZE * 3
-    }
-
-    override fun getPokemonList(): Flow<PagingData<Pokemon>> {
-        TODO("Not yet implemented")
+        const val PREFETCH_SIZE = 100
+        const val MAX_SIZE = (PAGE_SIZE + PREFETCH_SIZE) * 3
     }
 }

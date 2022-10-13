@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -63,8 +64,12 @@ dependencies {
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
 
-    implementation("androidx.room:room-runtime:2.4.3")
-    annotationProcessor("androidx.room:room-compiler:2.4.3")
+    def roomVersion = "2.4.3"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
 
     implementation "io.insert-koin:koin-android:3.2.2"
     implementation "io.insert-koin:koin-androidx-compose:3.2.1"

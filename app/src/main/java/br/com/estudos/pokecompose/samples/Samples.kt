@@ -1,7 +1,5 @@
 package br.com.estudos.pokecompose.samples
 
-import androidx.compose.ui.graphics.Color
-import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 
@@ -13,9 +11,8 @@ val listPokemonSample = listOf(
         id = 0,
         name = "Bulbasaur",
         colorTypeList = listOf(
-            TypeColoursEnum.GRASS.color,
-            TypeColoursEnum.POISON.color,
-            Color.Transparent
+            TypeColoursEnum.GRASS,
+            TypeColoursEnum.POISON
         ),
         imageUrl = setUrlImage(1)
     ),
@@ -23,9 +20,8 @@ val listPokemonSample = listOf(
         id = 1,
         name = "Ivysaur",
         colorTypeList = listOf(
-            TypeColoursEnum.GRASS.color,
-            TypeColoursEnum.POISON.color,
-            Color.Transparent
+            TypeColoursEnum.GRASS,
+            TypeColoursEnum.POISON
         ),
         imageUrl = setUrlImage(2)
     ),
@@ -33,9 +29,8 @@ val listPokemonSample = listOf(
         id = 2,
         name = "Venusaur",
         colorTypeList = listOf(
-            TypeColoursEnum.GRASS.color,
-            TypeColoursEnum.POISON.color,
-            Color.Transparent
+            TypeColoursEnum.GRASS,
+            TypeColoursEnum.POISON
         ),
         imageUrl = setUrlImage(3)
     ),
@@ -43,8 +38,7 @@ val listPokemonSample = listOf(
         id = 3,
         name = "Charmander",
         colorTypeList = listOf(
-            TypeColoursEnum.FIRE.color,
-            Color.Transparent
+            TypeColoursEnum.FIRE
         ),
         imageUrl = setUrlImage(4)
     ),
@@ -52,8 +46,7 @@ val listPokemonSample = listOf(
         id = 4,
         name = "Charmeleon",
         colorTypeList = listOf(
-            TypeColoursEnum.FIRE.color,
-            Color.Transparent
+            TypeColoursEnum.FIRE
         ),
         imageUrl = setUrlImage(5)
     ),
@@ -61,9 +54,8 @@ val listPokemonSample = listOf(
         id = 5,
         name = "Charizard",
         colorTypeList = listOf(
-            TypeColoursEnum.FIRE.color,
-            TypeColoursEnum.FLYING.color,
-            Color.Transparent
+            TypeColoursEnum.FIRE,
+            TypeColoursEnum.FLYING
         ),
         imageUrl = setUrlImage(6)
     ),
@@ -71,8 +63,7 @@ val listPokemonSample = listOf(
         id = 6,
         name = "Squirtle",
         colorTypeList = listOf(
-            TypeColoursEnum.WATER.color,
-            Color.Transparent
+            TypeColoursEnum.WATER
         ),
         imageUrl = setUrlImage(7)
     ),
@@ -80,8 +71,7 @@ val listPokemonSample = listOf(
         id = 7,
         name = "Wartortle",
         colorTypeList = listOf(
-            TypeColoursEnum.WATER.color,
-            Color.Transparent
+            TypeColoursEnum.WATER
         ),
         imageUrl = setUrlImage(8)
     ),
@@ -89,9 +79,8 @@ val listPokemonSample = listOf(
         id = 8,
         name = "Blastoise",
         colorTypeList = listOf(
-            TypeColoursEnum.WATER.color,
-            Color.Transparent
+            TypeColoursEnum.WATER
         ),
         imageUrl = setUrlImage(9)
-    ),
+    )
 )

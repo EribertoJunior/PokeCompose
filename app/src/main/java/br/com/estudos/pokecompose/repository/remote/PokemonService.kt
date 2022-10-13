@@ -1,16 +1,19 @@
 package br.com.estudos.pokecompose.repository.remote
 
 import br.com.estudos.pokecompose.model.api.ListPokemonApi
+import br.com.estudos.pokecompose.model.api.PokemonDetail
+import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface PokeService {
+interface PokemonService {
     @GET("pokemon")
     suspend fun getListPokemon(
         @Query("limit") limit: Int = 10,
         @Query("offset") offset: Int
     ): ListPokemonApi
 
-    // @GET("pokemon/{idPokemon}")
-    // fun getDetalhePokemon(@Path("idPokemon") idPokemon: Int) : Call<RetornoPokemonDetalhe>
+    @GET("pokemon/{id}")
+    suspend fun getPokemonDetails(@Path("id") pokemonId: Int) : PokemonDetail
 }
