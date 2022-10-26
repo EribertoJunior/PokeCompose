@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
@@ -25,17 +23,15 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.Transformations.map
 import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
+import br.com.estudos.pokecompose.extensions.toDoubleFormat
 import br.com.estudos.pokecompose.model.local.Home
 import br.com.estudos.pokecompose.model.local.OfficialArtwork
 import br.com.estudos.pokecompose.model.local.Other
@@ -117,18 +113,7 @@ fun PokemonItem(pokemon: Pokemon) {
                     )
                 ) {
                     pokemon.pokemonDetail.colorTypeList.forEach {
-                        Image(
-                            painter = painterResource(
-                                id = getDrawableId(
-                                    typeName = it.name,
-                                    LocalContext.current
-                                )
-                            ), contentDescription = "Tipo ${it.name}",
-                            modifier = Modifier
-                                .width(30.dp)
-                                .height(30.dp),
-                            colorFilter = ColorFilter.tint(it.codColor.color)
-                        )
+                        PokemonType(it)
                     }
                 }
 
@@ -138,8 +123,18 @@ fun PokemonItem(pokemon: Pokemon) {
                         .padding(top = 8.dp)
                         .align(CenterHorizontally)
                 ) {
-                    PokemonWeight(pokemon.pokemonDetail.weight)
-                    PokemonHeight(pokemon.pokemonDetail.height)
+                    PokemonMeasure(
+                        formattedMeasure = "${pokemon.pokemonDetail.weight.toDoubleFormat(1)} m",
+                        iconId = R.drawable.weight_kilogram,
+                        iconDescription = R.string.weight,
+                        iconContentDescription = R.string.pokemon_weight_image_description
+                    )
+                    PokemonMeasure(
+                        formattedMeasure = "${pokemon.pokemonDetail.height.toDoubleFormat(1)} m",
+                        iconId = R.drawable.ruler_square,
+                        iconDescription = R.string.height,
+                        iconContentDescription = R.string.pokemon_height_image_description
+                    )
                 }
             }
         }

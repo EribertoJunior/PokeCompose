@@ -1,6 +1,8 @@
 package br.com.estudos.pokecompose.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +23,12 @@ import br.com.estudos.pokecompose.extensions.toDoubleFormat
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 
 @Composable
-fun PokemonHeight(height: Int) {
+fun PokemonMeasure(
+    formattedMeasure: String,
+    @DrawableRes iconId: Int,
+    @StringRes iconDescription: Int,
+    @StringRes iconContentDescription: Int,
+) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(
@@ -29,13 +36,13 @@ fun PokemonHeight(height: Int) {
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ruler_square),
-                contentDescription = stringResource(R.string.pokemon_height_image_description),
+                painter = painterResource(id = iconId),
+                contentDescription = stringResource(iconContentDescription),
                 modifier = Modifier.size(24.dp)
             )
-            Text(text = "${height.toDoubleFormat(1)} m", fontWeight = FontWeight.Bold)
+            Text(text = formattedMeasure, fontWeight = FontWeight.Bold)
         }
-        Text(text = stringResource(R.string.height))
+        Text(text = stringResource(iconDescription))
     }
 }
 
@@ -45,7 +52,12 @@ fun PokemonHeight(height: Int) {
 fun PokemonHeightPreview() {
     PokeComposeTheme {
         Surface {
-            PokemonHeight(height = 253)
+            PokemonMeasure(
+                formattedMeasure = 253.toDoubleFormat(2),
+                iconId = R.drawable.ruler_square,
+                iconDescription = R.string.height,
+                iconContentDescription = R.string.pokemon_height_image_description
+            )
         }
     }
 }
