@@ -1,6 +1,7 @@
 package br.com.estudos.pokecompose.ui.components
 
 import android.content.Context
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.Center
@@ -27,14 +29,21 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Transformations.map
 import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
+import br.com.estudos.pokecompose.model.local.Home
+import br.com.estudos.pokecompose.model.local.OfficialArtwork
+import br.com.estudos.pokecompose.model.local.Other
 import br.com.estudos.pokecompose.model.local.Pokemon
+import br.com.estudos.pokecompose.model.local.PokemonDetail
+import br.com.estudos.pokecompose.model.local.Sprites
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
+import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import coil.compose.rememberAsyncImagePainter
 import java.util.Locale
 
@@ -49,10 +58,10 @@ fun PokemonItem(pokemon: Pokemon) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(200.dp)
+                    .fillMaxWidth(0.5f)
                     .background(
                         brush = Brush.horizontalGradient(
-                            pokemon.colorTypeList
+                            pokemon.pokemonDetail.colorTypeList
                                 .map { it.codColor.color }
                                 .plus(Color.Transparent)
                         )
@@ -63,7 +72,7 @@ fun PokemonItem(pokemon: Pokemon) {
                         painter = rememberAsyncImagePainter(
                             model = pokemon.imageUrl,
                             error = painterResource(
-                                id = R.drawable.ic_launcher_background
+                                id = R.drawable.pokebola
                             ),
                             placeholder = painterResource(id = R.drawable.pokebola)
                         ),
@@ -76,6 +85,7 @@ fun PokemonItem(pokemon: Pokemon) {
                     )
                     Text(
                         text = "N°${pokemon.id}",
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .padding(top = 8.dp)
                             .align(CenterHorizontally)
@@ -90,6 +100,7 @@ fun PokemonItem(pokemon: Pokemon) {
                 Text(
                     text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
                     fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .align(CenterHorizontally)
                         .padding(top = 8.dp)
@@ -105,7 +116,7 @@ fun PokemonItem(pokemon: Pokemon) {
                         alignment = CenterHorizontally
                     )
                 ) {
-                    pokemon.colorTypeList.forEach {
+                    pokemon.pokemonDetail.colorTypeList.forEach {
                         Image(
                             painter = painterResource(
                                 id = getDrawableId(
@@ -117,10 +128,18 @@ fun PokemonItem(pokemon: Pokemon) {
                                 .width(30.dp)
                                 .height(30.dp),
                             colorFilter = ColorFilter.tint(it.codColor.color)
-
                         )
-
                     }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(CenterHorizontally)
+                ) {
+                    PokemonWeight(pokemon.pokemonDetail.weight)
+                    PokemonHeight(pokemon.pokemonDetail.height)
                 }
             }
         }
@@ -131,17 +150,32 @@ private fun getDrawableId(typeName: String, context: Context) =
     context.resources.getIdentifier("ic_${typeName.lowercase()}", "drawable", context.packageName)
 
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun PokemonItemPreview() {
-    PokemonItem(
-        Pokemon(
-            id = 0,
-            name = "Teste",
-            listOf(
-                TypeColoursEnum.DRAGON,
-                TypeColoursEnum.FIRE
-            ),
-            imageUrl = ""
-        )
-    )
+    PokeComposeTheme {
+        Surface {
+            PokemonItem(
+                Pokemon(
+                    id = 0,
+                    name = "Teste",
+                    pokemonDetail = PokemonDetail(
+                        colorTypeList = listOf(
+                            TypeColoursEnum.DRAGON,
+                            TypeColoursEnum.FIRE
+                        ),
+                        sprites = Sprites(
+                            Other(
+                                officialArtwork = OfficialArtwork(""),
+                                home = Home("")
+                            )
+                        ),
+                        weight = 123,
+                        height = 123
+                    ),
+                    imageUrl = ""
+                )
+            )
+        }
+    }
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Poke Compose</string>
+    <string name="pokemon_height_image_description">height in meters</string>
+    <string name="pokemon_weight_image_description">weight in kilogram</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
 </resources>

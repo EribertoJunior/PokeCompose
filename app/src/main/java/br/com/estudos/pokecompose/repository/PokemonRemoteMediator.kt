@@ -7,7 +7,6 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
-import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import br.com.estudos.pokecompose.repository.local.PokemonDao
 import br.com.estudos.pokecompose.repository.local.PokemonRemoteKeyDao
 import br.com.estudos.pokecompose.repository.remote.PokemonService
@@ -64,24 +63,25 @@ class PokemonRemoteMediator(
                     //     pokemonRemoteKeyDao.deleteAll()
                     // }
 
+                    val listPokemonRemoteKey: ArrayList<PokemonRemoteKey> = arrayListOf()
+                    val listPokemon: ArrayList<Pokemon> = arrayListOf()
+
                     pokemonList.forEach {
                         val pokemonId = getIdPokemon(it.url)
                         val pokemonDetail = async { pokemonService.getPokemonDetails(pokemonId) }
 
                         pokemonDetail.await().run {
-                            pokemonDao.save(
+                            listPokemon.add(
                                 Pokemon(
                                     id = pokemonId,
                                     name = it.name,
-                                    colorTypeList = types.map { dataTypes ->
-                                        TypeColoursEnum.getTypeFromName(dataTypes.type.name)
-                                    },
+                                    pokemonDetail = pokeDetailRemoteToPokeDetail(),
                                     imageUrl = sprites.other.officialArtwork.frontDefault
                                 )
                             )
                         }
 
-                        pokemonRemoteKeyDao.save(
+                        listPokemonRemoteKey.add(
                             PokemonRemoteKey(
                                 id = pokemonId.toLong(),
                                 pokemonName = it.name,
@@ -91,10 +91,12 @@ class PokemonRemoteMediator(
                         )
                     }
 
+                    pokemonRemoteKeyDao.saveAll(listPokemonRemoteKey)
+                    pokemonDao.saveAll(listPokemon)
+
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
             }
-
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
@@ -134,7 +136,7 @@ class PokemonRemoteMediator(
         }
     }
 
-    companion object{
+    companion object {
         const val PAGE_SIZE = 100
         const val OFFSET = 100
     }

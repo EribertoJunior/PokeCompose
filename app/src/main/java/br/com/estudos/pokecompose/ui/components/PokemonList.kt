@@ -1,6 +1,8 @@
 package br.com.estudos.pokecompose.ui.components
 
+import android.view.Surface
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,7 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,39 +27,41 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun PokemonList(pokemonList: LazyPagingItems<Pokemon>) {
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        //state = rememberLazyListState(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            state = rememberLazyListState(),
+            contentPadding = PaddingValues(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
 
-        items(items = pokemonList, key = { it.id }) { pokemon ->
-            pokemon?.let {
-                PokemonItem(pokemon = it)
+            items(items = pokemonList, key = { it.id }) { pokemon ->
+                pokemon?.let {
+                    PokemonItem(pokemon = it)
+                }
             }
         }
 
-        when (pokemonList.loadState.refresh) {
-            is LoadState.Error -> Unit
-            LoadState.Loading -> {
-                item {
-                    LoadingItem()
-                }
-            }
-            is LoadState.NotLoading -> Unit
-        }
+        Box(modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .padding(bottom = 8.dp, end = 8.dp)) {
 
-        when (pokemonList.loadState.append) {
-            is LoadState.Error -> Unit
-            LoadState.Loading -> {
-                item {
-                    LoadingItem()
+            when (pokemonList.loadState.refresh) {
+                is LoadState.Error -> Unit
+                LoadState.Loading -> {
+                    LoadingAnimation()
                 }
+                is LoadState.NotLoading -> Unit
             }
-            is LoadState.NotLoading -> Unit
+
+            when (pokemonList.loadState.append) {
+                is LoadState.Error -> Unit
+                LoadState.Loading -> {
+                    LoadingAnimation()
+                }
+                is LoadState.NotLoading -> Unit
+            }
         }
     }
 }

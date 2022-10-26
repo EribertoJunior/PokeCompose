@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Poke Compose</string>
+    <string name="pokemon_height_image_description">Altura em metros</string>
+    <string name="pokemon_weight_image_description">Peso em quilograma</string>
+    <string name="height">Altura</string>
+    <string name="weight">Peso</string>
+</resources>
