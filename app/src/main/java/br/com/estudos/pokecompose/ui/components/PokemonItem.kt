@@ -1,6 +1,5 @@
 package br.com.estudos.pokecompose.ui.components
 
-import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -124,13 +123,13 @@ fun PokemonItem(pokemon: Pokemon) {
                         .align(CenterHorizontally)
                 ) {
                     PokemonMeasure(
-                        formattedMeasure = "${pokemon.pokemonDetail.weight.toDoubleFormat(1)} m",
+                        formattedMeasure = "${pokemon.pokemonDetail.weight.toDoubleFormat(2)} kg",
                         iconId = R.drawable.weight_kilogram,
                         iconDescription = R.string.weight,
                         iconContentDescription = R.string.pokemon_weight_image_description
                     )
                     PokemonMeasure(
-                        formattedMeasure = "${pokemon.pokemonDetail.height.toDoubleFormat(1)} m",
+                        formattedMeasure = "${pokemon.pokemonDetail.height.toDoubleFormat(2)} m",
                         iconId = R.drawable.ruler_square,
                         iconDescription = R.string.height,
                         iconContentDescription = R.string.pokemon_height_image_description
@@ -141,9 +140,6 @@ fun PokemonItem(pokemon: Pokemon) {
     }
 }
 
-private fun getDrawableId(typeName: String, context: Context) =
-    context.resources.getIdentifier("ic_${typeName.lowercase()}", "drawable", context.packageName)
-
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
@@ -152,12 +148,12 @@ fun PokemonItemPreview() {
         Surface {
             PokemonItem(
                 Pokemon(
-                    id = 0,
+                    id = 10,
                     name = "Teste",
                     pokemonDetail = PokemonDetail(
                         colorTypeList = listOf(
                             TypeColoursEnum.DRAGON,
-                            TypeColoursEnum.FIRE
+                            TypeColoursEnum.FIGHTING
                         ),
                         sprites = Sprites(
                             Other(
@@ -165,8 +161,8 @@ fun PokemonItemPreview() {
                                 home = Home("")
                             )
                         ),
-                        weight = 123,
-                        height = 123
+                        weight = 238,
+                        height = 13
                     ),
                     imageUrl = ""
                 )
