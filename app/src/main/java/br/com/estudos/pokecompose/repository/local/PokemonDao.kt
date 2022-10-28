@@ -10,14 +10,14 @@ import br.com.estudos.pokecompose.model.local.Pokemon
 @Dao
 interface PokemonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveAll(pokemons: List<Pokemon>)
+    suspend fun saveAll(pokemons: List<Pokemon>)
 
     @Query("Select * From Pokemon")
     fun getPokemons(): PagingSource<Int, Pokemon>
 
     @Query("Delete From Pokemon")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(pokemon: Pokemon)
+    suspend fun save(pokemon: Pokemon)
 }

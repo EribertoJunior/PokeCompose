@@ -3,9 +3,8 @@ package br.com.estudos.pokecompose.di
 import br.com.estudos.pokecompose.repository.PokemonRemoteMediator
 import br.com.estudos.pokecompose.repository.Repository
 import br.com.estudos.pokecompose.repository.RepositoryImpl
-import br.com.estudos.pokecompose.repository.local.PokemonDao
 import br.com.estudos.pokecompose.repository.local.RoomConfig
-import br.com.estudos.pokecompose.repository.remote.PokemonDataSource
+import br.com.estudos.pokecompose.repository.remote.PokemonPagingSource
 import br.com.estudos.pokecompose.repository.remote.RetrofitConfig
 import br.com.estudos.pokecompose.viewmodel.HomeViewModel
 import org.koin.android.ext.koin.androidContext
@@ -21,7 +20,7 @@ val modules = module {
     }
     factory { RoomConfig.getDataBase(androidContext()) }
 
-    factory { PokemonDataSource(get()) }
+    factory { PokemonPagingSource(get()) }
     factory<Repository> { RepositoryImpl(get(), get()) }
     factory { get<RoomConfig>().pokemonDao() }
     factory { get<RoomConfig>().pokemonRemoteKeyDao() }

@@ -14,8 +14,6 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
 class PokemonRemoteMediator(
@@ -28,7 +26,6 @@ class PokemonRemoteMediator(
         state: PagingState<Int, Pokemon>
     ): MediatorResult {
         return try {
-
             val offSet = when (loadType) {
                 LoadType.REFRESH -> {
                     val remoteKey = getClosestRemoteKeyToCurrentPosition(state)
@@ -97,9 +94,7 @@ class PokemonRemoteMediator(
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
             }
-        } catch (e: IOException) {
-            MediatorResult.Error(e)
-        } catch (e: HttpException) {
+        } catch (e: Exception) {
             MediatorResult.Error(e)
         }
     }
@@ -109,14 +104,14 @@ class PokemonRemoteMediator(
         return regex.find(urlPokemon)?.value?.replace("/", "")?.toInt() ?: 0
     }
 
-    suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { pokemon ->
                 pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemon.name)
             }
     }
 
-    suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
+    private suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.name?.let { pokemonName ->
                 pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonName)
@@ -124,13 +119,13 @@ class PokemonRemoteMediator(
         }
     }
 
-    suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { pokemon ->
             pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemon.name)
         }
     }
 
-    private fun getOffsetParameter(url: String?): Int? {
+    fun getOffsetParameter(url: String?): Int? {
         return url?.let {
             Uri.parse(url).getQueryParameter("offset")?.toInt()
         }

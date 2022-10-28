@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import br.com.estudos.pokecompose.model.api.PokemonApi
 import java.lang.Exception
 
-class PokemonDataSource(private val pokeService: PokemonService) : PagingSource<Int, PokemonApi>() {
+class PokemonPagingSource(private val pokeService: PokemonService) : PagingSource<Int, PokemonApi>() {
     override fun getRefreshKey(state: PagingState<Int, PokemonApi>): Int? = state.anchorPosition
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonApi> {
