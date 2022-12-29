@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (Pokemon) -> Unit = {}) {
-    val state by viewModel.stateFlow.collectAsState()
+    val state by viewModel.uiState.collectAsState()
     HomeScreen(pokemonList = flowOf(state.pokemonList).collectAsLazyPagingItems(), onClickPokemon)
 }
 

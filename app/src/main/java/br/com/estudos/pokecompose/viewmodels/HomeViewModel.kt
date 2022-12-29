@@ -11,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {
 
-    private var _stateFlow: MutableStateFlow<HomeScreenUiState> = MutableStateFlow(HomeScreenUiState())
-    val stateFlow get() = _stateFlow.asStateFlow()
+    private var _uiState: MutableStateFlow<HomeScreenUiState> = MutableStateFlow(HomeScreenUiState())
+    val uiState get() = _uiState.asStateFlow()
 
     init {
         fetchPokemons()
@@ -22,7 +22,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             repository.getPokemonList().cachedIn(viewModelScope).collect {
                 //_stateFlow.value = it
-                _stateFlow.value = _stateFlow.value.copy(
+                _uiState.value = _uiState.value.copy(
                     pokemonList = it
                 )
             }
