@@ -13,18 +13,8 @@ class RepositoryImpl(
     private val pokemonRemoteMediator: PokemonRemoteMediator,
     private val pokemonDao: PokemonDao
 ) : Repository {
-    // fun getPokemonListPagingSource(): Flow<PagingData<PokemonApi>> {
-    //     return Pager(
-    //         config = PagingConfig(
-    //             pageSize = PAGE_SIZE,
-    //             maxSize = MAX_SIZE,
-    //             prefetchDistance = PREFETCH_SIZE
-    //         ),
-    //         pagingSourceFactory = { pokemonDataSource }
-    //     ).flow
-    // }
 
-    @OptIn(ExperimentalPagingApi::class)
+    @ExperimentalPagingApi
     override fun getPokemonList(): Flow<PagingData<Pokemon>> {
         return Pager(
             config = PagingConfig(

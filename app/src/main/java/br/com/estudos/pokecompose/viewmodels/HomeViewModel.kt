@@ -1,4 +1,4 @@
-package br.com.estudos.pokecompose.viewmodel
+package br.com.estudos.pokecompose.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

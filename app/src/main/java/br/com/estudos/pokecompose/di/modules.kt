@@ -6,7 +6,7 @@ import br.com.estudos.pokecompose.repository.RepositoryImpl
 import br.com.estudos.pokecompose.repository.local.RoomConfig
 import br.com.estudos.pokecompose.repository.remote.PokemonPagingSource
 import br.com.estudos.pokecompose.repository.remote.RetrofitConfig
-import br.com.estudos.pokecompose.viewmodel.HomeViewModel
+import br.com.estudos.pokecompose.viewmodels.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,5 +26,5 @@ val modules = module {
     factory { get<RoomConfig>().pokemonRemoteKeyDao() }
     factory { PokemonRemoteMediator(get(), get(), get()) }
 
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(repository = get()) }
 }

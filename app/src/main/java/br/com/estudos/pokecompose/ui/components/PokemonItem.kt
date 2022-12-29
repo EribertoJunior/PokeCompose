@@ -1,6 +1,8 @@
 package br.com.estudos.pokecompose.ui.components
 
+import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,11 +43,14 @@ import br.com.estudos.pokecompose.model.local.Sprites
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import java.util.Locale
 
 @Composable
 fun PokemonItem(pokemon: Pokemon) {
-    Card(shape = RoundedCornerShape(8.dp), elevation = 8.dp) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp) {
         Row(
             Modifier
                 .fillMaxWidth()
@@ -65,7 +71,11 @@ fun PokemonItem(pokemon: Pokemon) {
                 Column(Modifier.align(Center)) {
                     Image(
                         painter = rememberAsyncImagePainter(
-                            model = pokemon.imageUrl,
+                            //model = pokemon.imageUrl,
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(pokemon.imageUrl)
+                                .crossfade(true)
+                                .build(),
                             error = painterResource(
                                 id = R.drawable.pokebola
                             ),
