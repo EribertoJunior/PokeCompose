@@ -1,6 +1,7 @@
 package br.com.estudos.pokecompose.ui.activities
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
             App(
                 content = {
                     HomeScreen(viewModel = viewModel, onClickPokemon = {
-
+                        Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
                     })
                 }
             )

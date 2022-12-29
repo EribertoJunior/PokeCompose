@@ -1,10 +1,9 @@
 package br.com.estudos.pokecompose.ui.components
 
-import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,10 +46,12 @@ import coil.request.ImageRequest
 import java.util.Locale
 
 @Composable
-fun PokemonItem(pokemon: Pokemon) {
+fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
     Card(
+        modifier = Modifier.clickable { onClickPokemon(pokemon) },
         shape = RoundedCornerShape(8.dp),
-        elevation = 8.dp) {
+        elevation = 8.dp
+    ) {
         Row(
             Modifier
                 .fillMaxWidth()
