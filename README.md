@@ -3,7 +3,7 @@
 > Uma pokedex feita usando o jetpack Compose
 
 ## Bibliotecas usadas
-| Plugin    | README                                                                        |
+| Lib       | README                                                                        |
 |-----------|-------------------------------------------------------------------------------|
 | Retrofit2 | https://square.github.io/retrofit/                                            |
 | Okhttp3   | https://square.github.io/okhttp/                                              |
