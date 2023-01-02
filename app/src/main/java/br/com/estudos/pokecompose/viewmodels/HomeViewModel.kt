@@ -2,16 +2,17 @@ package br.com.estudos.pokecompose.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.repository.Repository
-import br.com.estudos.pokecompose.ui.uistates.HomeScreenUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: Repository) : ViewModel() {
 
-    private var _uiState: MutableStateFlow<HomeScreenUiState> = MutableStateFlow(HomeScreenUiState())
+    private var _uiState: MutableStateFlow<PagingData<Pokemon>> = MutableStateFlow(PagingData.from(emptyList()))
     val uiState get() = _uiState.asStateFlow()
 
     init {
@@ -21,10 +22,7 @@ class HomeViewModel(private val repository: Repository) : ViewModel() {
     private fun fetchPokemons() {
         viewModelScope.launch {
             repository.getPokemonList().cachedIn(viewModelScope).collect {
-                //_stateFlow.value = it
-                _uiState.value = _uiState.value.copy(
-                    pokemonList = it
-                )
+                _uiState.value = it
             }
         }
     }

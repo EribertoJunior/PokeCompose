@@ -9,8 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
@@ -31,8 +29,7 @@ import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (Pokemon) -> Unit = {}) {
-    val state by viewModel.uiState.collectAsState()
-    HomeScreen(pokemonList = flowOf(state.pokemonList).collectAsLazyPagingItems(), onClickPokemon)
+    HomeScreen(pokemonList = viewModel.uiState.collectAsLazyPagingItems(), onClickPokemon)
 }
 
 @Composable
