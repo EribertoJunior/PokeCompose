@@ -5,4 +5,5 @@
     <string name="pokemon_weight_image_description">Peso em quilograma</string>
     <string name="height">Altura</string>
     <string name="weight">Peso</string>
+    <string name="pokemon_details">Detalhes do pokémon</string>
 </resources>

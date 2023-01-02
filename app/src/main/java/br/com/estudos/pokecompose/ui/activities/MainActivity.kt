@@ -1,5 +1,6 @@
 package br.com.estudos.pokecompose.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -21,6 +22,9 @@ class MainActivity : ComponentActivity() {
                 content = {
                     HomeScreen(viewModel = viewModel, onClickPokemon = {
                         Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+                        startActivity(
+                            Intent(this, PokemonDetailsActivity::class.java)
+                                .run { putExtra("pokemonId", it.id) })
                     })
                 }
             )
