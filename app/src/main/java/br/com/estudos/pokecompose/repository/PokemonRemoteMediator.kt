@@ -55,10 +55,10 @@ class PokemonRemoteMediator(
                     val prevKey = getOffsetParameter(response.previous)
                     val nextKey = getOffsetParameter(response.next)
 
-                    // if(loadType == LoadType.REFRESH){
-                    //     pokemonDao.deleteAll()
-                    //     pokemonRemoteKeyDao.deleteAll()
-                    // }
+                    if(loadType == LoadType.REFRESH){
+                        pokemonDao.deleteAll()
+                        pokemonRemoteKeyDao.deleteAll()
+                    }
 
                     val listPokemonRemoteKey: ArrayList<PokemonRemoteKey> = arrayListOf()
                     val listPokemon: ArrayList<Pokemon> = arrayListOf()
