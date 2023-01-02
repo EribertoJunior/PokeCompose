@@ -19,7 +19,8 @@ class RepositoryImpl(
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,
-                //maxSize = MAX_SIZE,
+                maxSize = MAX_SIZE,
+                initialLoadSize = PAGE_SIZE + PREFETCH_SIZE,
                 prefetchDistance = PREFETCH_SIZE,
                 enablePlaceholders = false
             ),
@@ -29,7 +30,7 @@ class RepositoryImpl(
     }
 
     companion object {
-        const val PREFETCH_SIZE = 100
-        const val MAX_SIZE = (PAGE_SIZE + PREFETCH_SIZE) * 3
+        const val PREFETCH_SIZE = 50
+        const val MAX_SIZE = PAGE_SIZE + (PREFETCH_SIZE * 2)
     }
 }
