@@ -7,10 +7,13 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import br.com.estudos.pokecompose.extensions.getPokeId
-import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.repository.local.PokemonDao
+import br.com.estudos.pokecompose.repository.local.PokemonDetailDao
 import br.com.estudos.pokecompose.repository.local.PokemonRemoteKeyDao
+import br.com.estudos.pokecompose.repository.local.entities.Pokemon
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
+import br.com.estudos.pokecompose.repository.local.entities.PokemonRemoteKey
 import br.com.estudos.pokecompose.repository.remote.PokemonService
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
@@ -21,11 +24,12 @@ import kotlinx.coroutines.withContext
 class PokemonRemoteMediator(
     private val pokemonDao: PokemonDao,
     private val pokemonRemoteKeyDao: PokemonRemoteKeyDao,
+    private val pokemonDetailDao: PokemonDetailDao,
     private val pokemonService: PokemonService
-) : RemoteMediator<Int, Pokemon>() {
+) : RemoteMediator<Int, PokemonAndDetail>() {
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, Pokemon>
+        state: PagingState<Int, PokemonAndDetail>
     ): MediatorResult {
         return try {
             val offSet = when (loadType) {
@@ -64,6 +68,7 @@ class PokemonRemoteMediator(
 
                     val listPokemonRemoteKey: ArrayList<PokemonRemoteKey> = arrayListOf()
                     val listPokemon: ArrayList<Pokemon> = arrayListOf()
+                    val listPokemonDetail: ArrayList<PokemonDetail> = arrayListOf()
 
                     pokemonList.forEach {
                         //val pokemonId = getIdPokemon(it.url)
@@ -73,12 +78,13 @@ class PokemonRemoteMediator(
                             Log.i("Armazenando... >", "id do pokemon: ${it.url.getPokeId}")
                             listPokemon.add(
                                 Pokemon(
-                                    id = id,
+                                    pokemonId = id,
                                     name = it.name,
-                                    pokemonDetail = pokeDetailRemoteToPokeDetail(),
                                     imageUrl = sprites.other.officialArtwork.frontDefault
                                 )
                             )
+
+                            listPokemonDetail.add(pokeDetailRemoteToPokeDetail())
 
                             listPokemonRemoteKey.add(
                                 PokemonRemoteKey(
@@ -93,6 +99,7 @@ class PokemonRemoteMediator(
                     }
 
                     pokemonRemoteKeyDao.saveAll(listPokemonRemoteKey)
+                    pokemonDetailDao.saveAll(listPokemonDetail)
                     pokemonDao.saveAll(listPokemon)
 
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
@@ -103,40 +110,26 @@ class PokemonRemoteMediator(
         }
     }
 
-    private fun buildIdFormat(id: Int): String {
-        return if (id < 10) {
-            "#00$id"
-        } else if (id in 10..99) {
-            "#0$id"
-        } else {
-            "#$id"
-        }
-    }
-
-    private fun getIdPokemon(urlPokemon: String): Int {
-        val regex = "/\\d+".toRegex()
-        return regex.find(urlPokemon)?.value?.replace("/", "")?.toInt() ?: 0
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { pokemon ->
-                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemon.name)
+            ?.let { pokemonAndDetail ->
+                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
             }
     }
 
-    private suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
+    private suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.name?.let { pokemonName ->
+            state.closestItemToPosition(position)?.pokemon?.name?.let { pokemonName ->
                 pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonName)
             }
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Pokemon>): PokemonRemoteKey? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { pokemon ->
-            pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemon.name)
-        }
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
+        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
+            ?.let { pokemonAndDetail ->
+                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
+            }
     }
 
     fun getOffsetParameter(url: String?): Int? {

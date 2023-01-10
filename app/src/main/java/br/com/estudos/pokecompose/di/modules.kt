@@ -30,8 +30,16 @@ val modules = module {
 
     factory { get<RoomConfig>().pokemonDao() }
     factory { get<RoomConfig>().pokemonRemoteKeyDao() }
-    factory { PokemonRemoteMediator(get(), get(), get()) }
+    factory { get<RoomConfig>().pokemonDetailDao() }
+    factory {
+        PokemonRemoteMediator(
+            pokemonDao = get(),
+            pokemonDetailDao = get(),
+            pokemonRemoteKeyDao = get(),
+            pokemonService = get()
+        )
+    }
 
     viewModel { HomeViewModel(repository = get()) }
-    viewModel { DetailsViewModel(detailRepository = get())}
+    viewModel { DetailsViewModel(detailRepository = get()) }
 }

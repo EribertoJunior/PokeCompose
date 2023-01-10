@@ -4,10 +4,9 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import br.com.estudos.pokecompose.model.local.Pokemon
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.repository.PokemonRemoteMediator.Companion.PAGE_SIZE
 import br.com.estudos.pokecompose.repository.local.PokemonDao
-import kotlinx.coroutines.flow.Flow
 
 class HomeRepositoryImpl(
     private val pokemonRemoteMediator: PokemonRemoteMediator,
@@ -15,7 +14,7 @@ class HomeRepositoryImpl(
 ) : HomeRepository {
 
     @ExperimentalPagingApi
-    override fun getPokemonList(): Flow<PagingData<Pokemon>> {
+    override fun getPokemonList(): kotlinx.coroutines.flow.Flow<PagingData<PokemonAndDetail>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,

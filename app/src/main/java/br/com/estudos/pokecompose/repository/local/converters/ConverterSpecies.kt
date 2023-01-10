@@ -1,6 +1,7 @@
-package br.com.estudos.pokecompose.model.local
+package br.com.estudos.pokecompose.repository.local.converters
 
 import androidx.room.TypeConverter
+import br.com.estudos.pokecompose.model.local.Species
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

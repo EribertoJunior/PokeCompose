@@ -1,11 +1,10 @@
 package br.com.estudos.pokecompose.model.remote
 
-import br.com.estudos.pokecompose.model.local.Home
-import br.com.estudos.pokecompose.model.local.OfficialArtwork
-import br.com.estudos.pokecompose.model.local.Other
-import br.com.estudos.pokecompose.model.local.PokemonDetail
-import br.com.estudos.pokecompose.model.local.Species
-import br.com.estudos.pokecompose.model.local.Sprites
+import br.com.estudos.pokecompose.repository.local.entities.Home
+import br.com.estudos.pokecompose.repository.local.entities.OfficialArtwork
+import br.com.estudos.pokecompose.repository.local.entities.Other
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
+import br.com.estudos.pokecompose.repository.local.entities.Sprites
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import com.google.gson.annotations.SerializedName
 
@@ -20,6 +19,8 @@ data class PokemonDetailRemote(
     ) {
     fun pokeDetailRemoteToPokeDetail() =
         PokemonDetail(
+            pokemonDetailId = id,
+            pokemonOwnerId = id,
             colorTypeList = types.map { dataTypes ->
                 TypeColoursEnum.getTypeFromName(dataTypes.type.name)
             },

@@ -15,25 +15,22 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.samples.listPokemonSample
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.ui.components.LoadingAnimation
 import br.com.estudos.pokecompose.ui.components.PokemonItem
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import br.com.estudos.pokecompose.viewmodels.HomeViewModel
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (Pokemon) -> Unit = {}) {
-    HomeScreen(pokemonList = viewModel.uiState.collectAsLazyPagingItems(), onClickPokemon)
+fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (PokemonAndDetail) -> Unit = {}) {
+    HomeScreen(pokemonAndDetailLazyPagingItems = viewModel.uiState.collectAsLazyPagingItems(), onClickPokemon)
 }
 
 @Composable
-fun HomeScreen(pokemonList: LazyPagingItems<Pokemon>, onClickPokemon: (Pokemon) -> Unit = {}) {
+fun HomeScreen(pokemonAndDetailLazyPagingItems: LazyPagingItems<PokemonAndDetail>, onClickPokemon: (PokemonAndDetail) -> Unit = {}) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -44,9 +41,9 @@ fun HomeScreen(pokemonList: LazyPagingItems<Pokemon>, onClickPokemon: (Pokemon) 
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            items(items = pokemonList, key = { it.id }) { pokemon ->
+            items(items = pokemonAndDetailLazyPagingItems, key = { it.pokemon.pokemonId }) { pokemon ->
                 pokemon?.let {
-                    PokemonItem(pokemon = it, onClickPokemon = onClickPokemon)
+                    PokemonItem(pokemonAndDetail = it, onClickPokemon = onClickPokemon)
                 }
             }
         }
@@ -57,7 +54,7 @@ fun HomeScreen(pokemonList: LazyPagingItems<Pokemon>, onClickPokemon: (Pokemon) 
                 .padding(bottom = 8.dp, end = 8.dp)
         ) {
 
-            when (pokemonList.loadState.refresh) {
+            when (pokemonAndDetailLazyPagingItems.loadState.refresh) {
                 is LoadState.Error -> Unit
                 LoadState.Loading -> {
                     LoadingAnimation()
@@ -65,7 +62,7 @@ fun HomeScreen(pokemonList: LazyPagingItems<Pokemon>, onClickPokemon: (Pokemon) 
                 is LoadState.NotLoading -> Unit
             }
 
-            when (pokemonList.loadState.append) {
+            when (pokemonAndDetailLazyPagingItems.loadState.append) {
                 is LoadState.Error -> Unit
                 LoadState.Loading -> {
                     LoadingAnimation()
@@ -87,7 +84,7 @@ fun HomeScreen(pokemonList: LazyPagingItems<Pokemon>, onClickPokemon: (Pokemon) 
 fun PokemonListPreview() {
     PokeComposeTheme {
         Surface {
-            HomeScreen(pokemonList = flowOf(PagingData.from(listPokemonSample)).collectAsLazyPagingItems())
+            //HomeScreen(pokemonList = flowOf(PagingData.from(listPokemonSample)).collectAsLazyPagingItems())
         }
     }
 }

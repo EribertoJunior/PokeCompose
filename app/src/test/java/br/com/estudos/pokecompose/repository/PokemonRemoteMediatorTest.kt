@@ -5,10 +5,11 @@ import androidx.paging.LoadType
 import androidx.paging.PagingConfig
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.model.remote.ListPokemonRemote
 import br.com.estudos.pokecompose.model.remote.PokemonDetailRemote
-import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.repository.local.PokemonDao
+import br.com.estudos.pokecompose.repository.local.PokemonDetailDao
 import br.com.estudos.pokecompose.repository.local.PokemonRemoteKeyDao
 import br.com.estudos.pokecompose.repository.remote.PokemonService
 import io.mockk.coEvery
@@ -22,6 +23,7 @@ import org.junit.Test
 internal class PokemonRemoteMediatorTest {
 
     private val pokemonDaoMock = mockk<PokemonDao>()
+    private val pokemonDetailDaoMock = mockk<PokemonDetailDao>()
     private val pokemonRemoteKeyDaoMock = mockk<PokemonRemoteKeyDao>()
     private val pokemonServiceMock = mockk<PokemonService>()
     private var response = mockk<ListPokemonRemote>()
@@ -30,7 +32,8 @@ internal class PokemonRemoteMediatorTest {
         PokemonRemoteMediator(
             pokemonDao = pokemonDaoMock,
             pokemonRemoteKeyDao = pokemonRemoteKeyDaoMock,
-            pokemonService = pokemonServiceMock
+            pokemonService = pokemonServiceMock,
+            pokemonDetailDao = pokemonDetailDaoMock
         )
     )
 
@@ -52,6 +55,7 @@ internal class PokemonRemoteMediatorTest {
 
         coEvery { pokemonDaoMock.saveAll(any()) } answers {}
         coEvery { pokemonRemoteKeyDaoMock.saveAll(any()) } answers {}
+        coEvery { pokemonDetailDaoMock.saveAll(any()) } answers {}
 
         val result = runBlocking {
             remoteMediatorSpy.load(LoadType.REFRESH, getPagingState())
@@ -71,6 +75,7 @@ internal class PokemonRemoteMediatorTest {
 
         coEvery { pokemonServiceMock.getListPokemon(limit = 100, offset = 0) } answers { response }
 
+        coEvery { pokemonDetailDaoMock.saveAll(any()) } answers {}
         coEvery { pokemonDaoMock.saveAll(any()) } answers {}
         coEvery { pokemonRemoteKeyDaoMock.saveAll(any()) } answers {}
 
@@ -96,7 +101,7 @@ internal class PokemonRemoteMediatorTest {
         assert(result is RemoteMediator.MediatorResult.Error)
     }
 
-    private fun getPagingState() = PagingState<Int, Pokemon>(
+    private fun getPagingState() = PagingState<Int, PokemonAndDetail>(
         pages = listOf(),
         anchorPosition = null,
         config = PagingConfig(10),

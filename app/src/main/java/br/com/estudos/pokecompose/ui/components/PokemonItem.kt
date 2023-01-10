@@ -34,21 +34,25 @@ import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.extensions.titlecase
 import br.com.estudos.pokecompose.extensions.toDoubleFormat
-import br.com.estudos.pokecompose.model.local.Home
-import br.com.estudos.pokecompose.model.local.OfficialArtwork
-import br.com.estudos.pokecompose.model.local.Other
-import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.model.local.PokemonDetail
-import br.com.estudos.pokecompose.model.local.Sprites
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
+import br.com.estudos.pokecompose.repository.local.entities.Home
+import br.com.estudos.pokecompose.repository.local.entities.OfficialArtwork
+import br.com.estudos.pokecompose.repository.local.entities.Other
+import br.com.estudos.pokecompose.repository.local.entities.Pokemon
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
+import br.com.estudos.pokecompose.repository.local.entities.Sprites
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 
 @Composable
-fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
+fun PokemonItem(
+    pokemonAndDetail: PokemonAndDetail,
+    onClickPokemon: (PokemonAndDetail) -> Unit = {}
+) {
     Card(
-        modifier = Modifier.clickable { onClickPokemon(pokemon) },
+        modifier = Modifier.clickable { onClickPokemon(pokemonAndDetail) },
         shape = RoundedCornerShape(8.dp),
         elevation = 8.dp
     ) {
@@ -63,7 +67,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                     .fillMaxWidth(0.5f)
                     .background(
                         brush = Brush.horizontalGradient(
-                            pokemon.pokemonDetail.colorTypeList
+                            pokemonAndDetail.pokemonDetail.colorTypeList
                                 .map { it.codColor.color }
                                 .plus(Color.Transparent)
                         )
@@ -74,7 +78,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                         painter = rememberAsyncImagePainter(
                             //model = pokemon.imageUrl,
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(pokemon.imageUrl)
+                                .data(pokemonAndDetail.pokemon.imageUrl)
                                 .crossfade(true)
                                 .build(),
                             error = painterResource(
@@ -90,7 +94,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                         contentScale = ContentScale.Crop,
                     )
                     Text(
-                        text = pokemon.idFormatted,
+                        text = pokemonAndDetail.pokemon.idFormatted,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .padding(top = 8.dp)
@@ -104,7 +108,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = pokemon.name.titlecase,
+                    text = pokemonAndDetail.pokemon.name.titlecase,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -122,7 +126,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                         alignment = CenterHorizontally
                     )
                 ) {
-                    pokemon.pokemonDetail.colorTypeList.forEach {
+                    pokemonAndDetail.pokemonDetail.colorTypeList.forEach {
                         PokemonType(it)
                     }
                 }
@@ -134,13 +138,21 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                         .align(CenterHorizontally)
                 ) {
                     PokemonMeasure(
-                        formattedMeasure = "${pokemon.pokemonDetail.weight.toDoubleFormat(2)} kg",
+                        formattedMeasure = "${
+                            pokemonAndDetail.pokemonDetail.weight.toDoubleFormat(
+                                2
+                            )
+                        } kg",
                         iconId = R.drawable.weight_kilogram,
                         iconDescription = R.string.weight,
                         iconContentDescription = R.string.pokemon_weight_image_description
                     )
                     PokemonMeasure(
-                        formattedMeasure = "${pokemon.pokemonDetail.height.toDoubleFormat(2)} m",
+                        formattedMeasure = "${
+                            pokemonAndDetail.pokemonDetail.height.toDoubleFormat(
+                                2
+                            )
+                        } m",
                         iconId = R.drawable.ruler_square,
                         iconDescription = R.string.height,
                         iconContentDescription = R.string.pokemon_height_image_description
@@ -158,9 +170,12 @@ fun PokemonItemPreview() {
     PokeComposeTheme {
         Surface {
             PokemonItem(
-                Pokemon(
-                    id = 10,
-                    name = "Teste",
+                PokemonAndDetail(
+                    pokemon = Pokemon(
+                        pokemonId = 10,
+                        name = "Teste",
+                        imageUrl = ""
+                    ),
                     pokemonDetail = PokemonDetail(
                         colorTypeList = listOf(
                             TypeColoursEnum.DRAGON,
@@ -175,7 +190,6 @@ fun PokemonItemPreview() {
                         weight = 238,
                         height = 13,
                     ),
-                    imageUrl = ""
                 )
             )
         }

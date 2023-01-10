@@ -1,6 +1,6 @@
 package br.com.estudos.pokecompose.repository
 
-import br.com.estudos.pokecompose.model.local.Pokemon
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.model.remote.EvolutionChainRemote
 import br.com.estudos.pokecompose.model.remote.SpeciesRemote
 import br.com.estudos.pokecompose.repository.local.PokemonDao
@@ -12,7 +12,7 @@ class DetailRepositoryImpl(
     private val pokemonService: PokemonService
 ) : DetailRepository {
 
-    override suspend fun searchPokemonByName(pokemonName: String): Flow<Pokemon> {
+    override suspend fun searchPokemonByName(pokemonName: String): Flow<PokemonAndDetail> {
 
         return pokemonDao.searchPokemonByName(pokemonName)
     }

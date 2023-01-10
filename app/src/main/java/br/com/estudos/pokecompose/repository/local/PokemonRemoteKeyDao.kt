@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
+import br.com.estudos.pokecompose.repository.local.entities.PokemonRemoteKey
 
 @Dao
 interface PokemonRemoteKeyDao {

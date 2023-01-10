@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.extensions.titlecase
-import br.com.estudos.pokecompose.model.local.Pokemon
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.samples.listPokemonSample
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
@@ -50,7 +50,7 @@ fun DetailsScreen(namePokemon: String, viewModel: DetailsViewModel) {
 }
 
 @Composable
-fun DetailsScreen(pokemon: Pokemon) {
+fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +62,7 @@ fun DetailsScreen(pokemon: Pokemon) {
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
-                        pokemon.pokemonDetail.colorTypeList
+                        pokemonAndDetail.pokemonDetail.colorTypeList
                             .map { it.codColor.color }
                             .plus(Color.Transparent)
                     )
@@ -81,30 +81,30 @@ fun DetailsScreen(pokemon: Pokemon) {
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
-                ){
+                ) {
                     Text(
-                        text = pokemon.name.titlecase,
+                        text = pokemonAndDetail.pokemon.name.titlecase,
                         fontWeight = FontWeight.Bold,
                         fontSize = 23.sp,
                         modifier = Modifier
                             .padding(top = 8.dp)
-                            //.align(Alignment.End)
+                        //.align(Alignment.End)
                     )
 
                     Text(
-                        text = pokemon.idFormatted,
+                        text = pokemonAndDetail.pokemon.idFormatted,
                         fontWeight = FontWeight.Bold,
                         fontSize = 23.sp,
                         modifier = Modifier
                             .padding(top = 8.dp)
-                            //.align(Alignment.End)
+                        //.align(Alignment.End)
                     )
                 }
 
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(pokemon.imageUrl)
+                            .data(pokemonAndDetail.pokemon.imageUrl)
                             .crossfade(true)
                             .build(),
                         error = painterResource(
@@ -130,7 +130,9 @@ fun DetailsScreen(pokemon: Pokemon) {
 fun DetailsScreenPreview() {
     PokeComposeTheme {
         Surface {
-            DetailsScreen(pokemon = listPokemonSample[2])
+            DetailsScreen(
+                listPokemonSample[2]
+            )
         }
     }
 }

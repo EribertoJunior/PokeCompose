@@ -3,8 +3,9 @@ package br.com.estudos.pokecompose.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.estudos.pokecompose.extensions.getPokeId
-import br.com.estudos.pokecompose.model.local.Pokemon
-import br.com.estudos.pokecompose.model.local.PokemonDetail
+import br.com.estudos.pokecompose.model.local.PokemonAndDetail
+import br.com.estudos.pokecompose.repository.local.entities.Pokemon
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
 import br.com.estudos.pokecompose.model.local.Species
 import br.com.estudos.pokecompose.model.remote.ChainRemote
 import br.com.estudos.pokecompose.repository.DetailRepository
@@ -15,8 +16,11 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(private val detailRepository: DetailRepository) : ViewModel() {
 
-    private var _uiState: MutableStateFlow<Pokemon> =
-        MutableStateFlow(Pokemon(pokemonDetail = PokemonDetail()))
+    private var _uiState: MutableStateFlow<PokemonAndDetail> =
+        MutableStateFlow(PokemonAndDetail(
+            pokemon = Pokemon(),
+            pokemonDetail = PokemonDetail()
+        ))
     val uiState get() = _uiState.asStateFlow()
 
     fun searchEvolutionChain(pokemonName: String) {

@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     HomeScreen(viewModel = viewModel, onClickPokemon = {
                         startActivity(
                             Intent(this, DetailsActivity::class.java)
-                                .run { putExtra(DETAILS_ACTIVITY_POKEMON_NAME, it.name) })
+                                .run { putExtra(DETAILS_ACTIVITY_POKEMON_NAME, it.pokemon.name) })
                     })
                 }
             )

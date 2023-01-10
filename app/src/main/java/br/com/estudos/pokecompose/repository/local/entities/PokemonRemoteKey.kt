@@ -1,4 +1,4 @@
-package br.com.estudos.pokecompose.model.local
+package br.com.estudos.pokecompose.repository.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
