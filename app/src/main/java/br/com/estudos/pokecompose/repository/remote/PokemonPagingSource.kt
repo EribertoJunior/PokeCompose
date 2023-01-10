@@ -3,13 +3,13 @@ package br.com.estudos.pokecompose.repository.remote
 import android.net.Uri
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import br.com.estudos.pokecompose.model.api.PokemonApi
+import br.com.estudos.pokecompose.model.remote.PokemonRemote
 import java.lang.Exception
 
-class PokemonPagingSource(private val pokeService: PokemonService) : PagingSource<Int, PokemonApi>() {
-    override fun getRefreshKey(state: PagingState<Int, PokemonApi>): Int? = state.anchorPosition
+class PokemonPagingSource(private val pokeService: PokemonService) : PagingSource<Int, PokemonRemote>() {
+    override fun getRefreshKey(state: PagingState<Int, PokemonRemote>): Int? = state.anchorPosition
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonApi> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PokemonRemote> {
         return try {
 
             val offset = params.key ?: PRIMEIRO_DESLOCAMENTO_OFFSET

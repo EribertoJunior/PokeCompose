@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import br.com.estudos.pokecompose.model.local.Pokemon
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PokemonDao {
@@ -20,4 +21,7 @@ interface PokemonDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(pokemon: Pokemon)
+
+    @Query("Select * From Pokemon Where name = :name")
+    fun searchPokemonByName(name: String): Flow<Pokemon>
 }

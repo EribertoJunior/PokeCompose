@@ -1,19 +1,23 @@
-package br.com.estudos.pokecompose.model.api
+package br.com.estudos.pokecompose.model.remote
 
 import br.com.estudos.pokecompose.model.local.Home
 import br.com.estudos.pokecompose.model.local.OfficialArtwork
 import br.com.estudos.pokecompose.model.local.Other
 import br.com.estudos.pokecompose.model.local.PokemonDetail
+import br.com.estudos.pokecompose.model.local.Species
 import br.com.estudos.pokecompose.model.local.Sprites
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import com.google.gson.annotations.SerializedName
 
 data class PokemonDetailRemote(
-    @SerializedName("types") var types: List<DataTypesRemote>,
-    @SerializedName("sprites") var sprites: SpritesRemote,
-    @SerializedName("weight") var weight: Int,
-    @SerializedName("height") var height: Int
-) {
+    @SerializedName("id") val id: Int,
+    @SerializedName("types") val types: List<DataTypesRemote>,
+    @SerializedName("sprites") val sprites: SpritesRemote,
+    @SerializedName("weight") val weight: Int,
+    @SerializedName("height") val height: Int,
+    //@SerializedName("species") val species: SpeciesRemote,
+
+    ) {
     fun pokeDetailRemoteToPokeDetail() =
         PokemonDetail(
             colorTypeList = types.map { dataTypes ->

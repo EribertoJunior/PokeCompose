@@ -27,7 +27,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(1)
     ),
@@ -46,7 +46,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(2)
     ),
@@ -55,8 +55,7 @@ val listPokemonSample = listOf(
         name = "Venusaur",
         pokemonDetail = PokemonDetail(
             colorTypeList = listOf(
-                TypeColoursEnum.DRAGON,
-                TypeColoursEnum.FIRE
+                TypeColoursEnum.GRASS,
             ),
             sprites = Sprites(
                 Other(
@@ -65,7 +64,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(3)
     ),
@@ -84,7 +83,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(4)
     ),
@@ -103,7 +102,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(5)
     ),
@@ -122,7 +121,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(6)
     ),
@@ -141,7 +140,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(7)
     ),
@@ -160,7 +159,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(8)
     ),
@@ -179,7 +178,7 @@ val listPokemonSample = listOf(
                 )
             ),
             weight = 123,
-            height = 123
+            height = 123,
         ),
         imageUrl = setUrlImage(9)
     )

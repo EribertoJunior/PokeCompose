@@ -5,12 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import br.com.estudos.pokecompose.model.local.ConverterHelper
+import br.com.estudos.pokecompose.model.local.ConverterSpecies
+import br.com.estudos.pokecompose.model.local.ConverterTypeColoursEnum
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
 
 @Database(entities = [Pokemon::class, PokemonRemoteKey::class], version = 1, exportSchema = false)
-@TypeConverters(ConverterHelper::class)
+@TypeConverters(ConverterTypeColoursEnum::class, ConverterSpecies::class)
 abstract class RoomConfig : RoomDatabase() {
 
     abstract fun pokemonDao(): PokemonDao

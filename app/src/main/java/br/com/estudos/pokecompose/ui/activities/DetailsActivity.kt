@@ -7,20 +7,27 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import br.com.estudos.pokecompose.ui.screens.DetailsScreen
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
+import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PokemonDetailsActivity: ComponentActivity() {
+class DetailsActivity : ComponentActivity() {
 
+    private val viewModel: DetailsViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PokeComposeTheme {
                 Surface {
-                    val intExtra = intent.getIntExtra("pokemonId", 0)
-                    Toast.makeText(this,intExtra.toString(), Toast.LENGTH_SHORT).show()
+                    val stringExtra = intent.getStringExtra(DETAILS_ACTIVITY_POKEMON_NAME).orEmpty()
+                    //Toast.makeText(this, stringExtra, Toast.LENGTH_SHORT).show()
 
-                    DetailsScreen()
+                    DetailsScreen(stringExtra, viewModel)
                 }
             }
         }
+    }
+
+    companion object {
+        const val DETAILS_ACTIVITY_POKEMON_NAME = "pokemonName"
     }
 }

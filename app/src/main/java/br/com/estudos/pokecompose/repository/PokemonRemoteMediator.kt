@@ -1,10 +1,12 @@
 package br.com.estudos.pokecompose.repository
 
 import android.net.Uri
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import br.com.estudos.pokecompose.extensions.getPokeId
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.model.local.PokemonRemoteKey
 import br.com.estudos.pokecompose.repository.local.PokemonDao
@@ -55,37 +57,39 @@ class PokemonRemoteMediator(
                     val prevKey = getOffsetParameter(response.previous)
                     val nextKey = getOffsetParameter(response.next)
 
-                    if(loadType == LoadType.REFRESH){
-                        pokemonDao.deleteAll()
-                        pokemonRemoteKeyDao.deleteAll()
-                    }
+                    // if(loadType == LoadType.REFRESH){
+                    //     pokemonDao.deleteAll()
+                    //     pokemonRemoteKeyDao.deleteAll()
+                    // }
 
                     val listPokemonRemoteKey: ArrayList<PokemonRemoteKey> = arrayListOf()
                     val listPokemon: ArrayList<Pokemon> = arrayListOf()
 
                     pokemonList.forEach {
-                        val pokemonId = getIdPokemon(it.url)
-                        val pokemonDetail = async { pokemonService.getPokemonDetails(pokemonId) }
+                        //val pokemonId = getIdPokemon(it.url)
+                        val detailRemote = async { pokemonService.getPokemonDetails(it.name) }
 
-                        pokemonDetail.await().run {
+                        detailRemote.await().run {
+                            Log.i("Armazenando... >", "id do pokemon: ${it.url.getPokeId}")
                             listPokemon.add(
                                 Pokemon(
-                                    id = pokemonId,
+                                    id = id,
                                     name = it.name,
                                     pokemonDetail = pokeDetailRemoteToPokeDetail(),
                                     imageUrl = sprites.other.officialArtwork.frontDefault
                                 )
                             )
+
+                            listPokemonRemoteKey.add(
+                                PokemonRemoteKey(
+                                    id = id.toLong(),
+                                    pokemonName = it.name,
+                                    prevOffset = prevKey,
+                                    nextOffset = nextKey
+                                )
+                            )
                         }
 
-                        listPokemonRemoteKey.add(
-                            PokemonRemoteKey(
-                                id = pokemonId.toLong(),
-                                pokemonName = it.name,
-                                prevOffset = prevKey,
-                                nextOffset = nextKey
-                            )
-                        )
                     }
 
                     pokemonRemoteKeyDao.saveAll(listPokemonRemoteKey)
@@ -96,6 +100,16 @@ class PokemonRemoteMediator(
             }
         } catch (e: Exception) {
             MediatorResult.Error(e)
+        }
+    }
+
+    private fun buildIdFormat(id: Int): String {
+        return if (id < 10) {
+            "#00$id"
+        } else if (id in 10..99) {
+            "#0$id"
+        } else {
+            "#$id"
         }
     }
 

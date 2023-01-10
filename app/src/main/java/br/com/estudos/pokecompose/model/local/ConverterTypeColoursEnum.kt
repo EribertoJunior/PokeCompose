@@ -5,7 +5,7 @@ import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class ConverterHelper {
+class ConverterTypeColoursEnum {
 
     @TypeConverter
     fun restoreListEnum(typeColoursEnumNames: String): List<TypeColoursEnum> {

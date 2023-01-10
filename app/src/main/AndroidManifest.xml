@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.PokemonDetailsActivity"
+        <activity android:name=".ui.activities.DetailsActivity"
             android:exported="true"
             android:label="@string/pokemon_details"
             android:theme="@style/Theme.PokeCompose"/>

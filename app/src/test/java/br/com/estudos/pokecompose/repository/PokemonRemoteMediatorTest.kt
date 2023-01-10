@@ -5,8 +5,8 @@ import androidx.paging.LoadType
 import androidx.paging.PagingConfig
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import br.com.estudos.pokecompose.model.api.ListPokemonApi
-import br.com.estudos.pokecompose.model.api.PokemonDetailRemote
+import br.com.estudos.pokecompose.model.remote.ListPokemonRemote
+import br.com.estudos.pokecompose.model.remote.PokemonDetailRemote
 import br.com.estudos.pokecompose.model.local.Pokemon
 import br.com.estudos.pokecompose.repository.local.PokemonDao
 import br.com.estudos.pokecompose.repository.local.PokemonRemoteKeyDao
@@ -24,7 +24,7 @@ internal class PokemonRemoteMediatorTest {
     private val pokemonDaoMock = mockk<PokemonDao>()
     private val pokemonRemoteKeyDaoMock = mockk<PokemonRemoteKeyDao>()
     private val pokemonServiceMock = mockk<PokemonService>()
-    private var response = mockk<ListPokemonApi>()
+    private var response = mockk<ListPokemonRemote>()
     private val pokemonDetailMock = mockk<PokemonDetailRemote>(relaxed = true)
     private val remoteMediatorSpy = spyk(
         PokemonRemoteMediator(

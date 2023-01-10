@@ -9,10 +9,10 @@ import br.com.estudos.pokecompose.repository.PokemonRemoteMediator.Companion.PAG
 import br.com.estudos.pokecompose.repository.local.PokemonDao
 import kotlinx.coroutines.flow.Flow
 
-class RepositoryImpl(
+class HomeRepositoryImpl(
     private val pokemonRemoteMediator: PokemonRemoteMediator,
     private val pokemonDao: PokemonDao
-) : Repository {
+) : HomeRepository {
 
     @ExperimentalPagingApi
     override fun getPokemonList(): Flow<PagingData<Pokemon>> {

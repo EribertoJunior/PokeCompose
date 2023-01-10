@@ -5,11 +5,13 @@ import androidx.room.TypeConverters
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 
 data class PokemonDetail(
-    @TypeConverters(ConverterHelper::class)
-    var colorTypeList: List<TypeColoursEnum>,
-    @Embedded(prefix = "sprites_") var sprites: Sprites?,
-    var weight: Int,
-    var height:Int
+    @TypeConverters(ConverterTypeColoursEnum::class)
+    var colorTypeList: List<TypeColoursEnum> = listOf(TypeColoursEnum.DARK),
+    @Embedded(prefix = "sprites_") var sprites: Sprites? = null,
+    var weight: Int = 0,
+    var height:Int = 0,
+    @TypeConverters(ConverterSpecies::class)
+    var species: List<Species> = emptyList(),
 )
 
 data class Sprites(

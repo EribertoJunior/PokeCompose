@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
+import br.com.estudos.pokecompose.extensions.titlecase
 import br.com.estudos.pokecompose.extensions.toDoubleFormat
 import br.com.estudos.pokecompose.model.local.Home
 import br.com.estudos.pokecompose.model.local.OfficialArtwork
@@ -43,7 +44,6 @@ import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import java.util.Locale
 
 @Composable
 fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
@@ -90,7 +90,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                         contentScale = ContentScale.Crop,
                     )
                     Text(
-                        text = "N°${pokemon.id}",
+                        text = pokemon.idFormatted,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .padding(top = 8.dp)
@@ -104,7 +104,7 @@ fun PokemonItem(pokemon: Pokemon, onClickPokemon: (Pokemon) -> Unit = {}) {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = pokemon.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() },
+                    text = pokemon.name.titlecase,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -173,7 +173,7 @@ fun PokemonItemPreview() {
                             )
                         ),
                         weight = 238,
-                        height = 13
+                        height = 13,
                     ),
                     imageUrl = ""
                 )

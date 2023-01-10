@@ -2,11 +2,11 @@ package br.com.estudos.pokecompose.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import br.com.estudos.pokecompose.ui.activities.DetailsActivity.Companion.DETAILS_ACTIVITY_POKEMON_NAME
 import br.com.estudos.pokecompose.ui.screens.HomeScreen
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import br.com.estudos.pokecompose.viewmodels.HomeViewModel
@@ -21,10 +21,9 @@ class MainActivity : ComponentActivity() {
             App(
                 content = {
                     HomeScreen(viewModel = viewModel, onClickPokemon = {
-                        Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
                         startActivity(
-                            Intent(this, PokemonDetailsActivity::class.java)
-                                .run { putExtra("pokemonId", it.id) })
+                            Intent(this, DetailsActivity::class.java)
+                                .run { putExtra(DETAILS_ACTIVITY_POKEMON_NAME, it.name) })
                     })
                 }
             )
