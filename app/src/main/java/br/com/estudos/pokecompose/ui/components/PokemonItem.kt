@@ -41,6 +41,7 @@ import br.com.estudos.pokecompose.repository.local.entities.OfficialArtwork
 import br.com.estudos.pokecompose.repository.local.entities.Other
 import br.com.estudos.pokecompose.repository.local.entities.Pokemon
 import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetailSpecies
 import br.com.estudos.pokecompose.repository.local.entities.Sprites
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import coil.compose.rememberAsyncImagePainter
@@ -189,6 +190,11 @@ fun PokemonItemPreview() {
                         ),
                         weight = 238,
                         height = 13,
+                        stats = emptyList(),
+                        species = PokemonDetailSpecies(
+                            name = "",
+                            url = ""
+                        )
                     ),
                 )
             )

@@ -8,6 +8,7 @@ import androidx.compose.material.Surface
 import br.com.estudos.pokecompose.ui.screens.DetailsScreen
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class DetailsActivity : ComponentActivity() {
                     val stringExtra = intent.getStringExtra(DETAILS_ACTIVITY_POKEMON_NAME).orEmpty()
                     //Toast.makeText(this, stringExtra, Toast.LENGTH_SHORT).show()
 
-                    DetailsScreen(stringExtra, viewModel)
+                    DetailsScreen(stringExtra, getViewModel())
                 }
             }
         }

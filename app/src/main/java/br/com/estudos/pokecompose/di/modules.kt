@@ -31,12 +31,17 @@ val modules = module {
     factory { get<RoomConfig>().pokemonDao() }
     factory { get<RoomConfig>().pokemonRemoteKeyDao() }
     factory { get<RoomConfig>().pokemonDetailDao() }
+    factory { get<RoomConfig>().pokemonSpeciesDao() }
+    factory { get<RoomConfig>().pokemonEvolutionChainDao() }
+
     factory {
         PokemonRemoteMediator(
             pokemonDao = get(),
             pokemonDetailDao = get(),
             pokemonRemoteKeyDao = get(),
-            pokemonService = get()
+            pokemonService = get(),
+            pokemonSpeciesDao = get(),
+            evolutionChainDao = get()
         )
     }
 

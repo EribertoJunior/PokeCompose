@@ -6,6 +6,8 @@ import br.com.estudos.pokecompose.repository.local.entities.Pokemon
 import br.com.estudos.pokecompose.repository.local.entities.Pokemon.Companion.POKEMON_ID
 import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
 import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail.Companion.POKEMON_DETAIL_OWNER_ID
+import br.com.estudos.pokecompose.repository.local.entities.PokemonSpecies
+import br.com.estudos.pokecompose.repository.local.entities.PokemonSpecies.Companion.POKEMON_SPECIES_OWNER_ID
 
 data class PokemonAndDetail(
     @Embedded val pokemon: Pokemon,
@@ -13,5 +15,10 @@ data class PokemonAndDetail(
         parentColumn = POKEMON_ID,
         entityColumn = POKEMON_DETAIL_OWNER_ID
     )
-    val pokemonDetail: PokemonDetail
+    val pokemonDetail: PokemonDetail,
+    @Relation(
+        parentColumn = POKEMON_ID,
+        entityColumn = POKEMON_SPECIES_OWNER_ID,
+    )
+    val pokemonSpecies: PokemonSpecies? = null
 )

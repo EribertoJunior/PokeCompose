@@ -8,6 +8,9 @@ import br.com.estudos.pokecompose.repository.local.entities.Pokemon
 import br.com.estudos.pokecompose.repository.local.entities.PokemonDetail
 import br.com.estudos.pokecompose.repository.local.entities.Sprites
 import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetailSpecies
+import br.com.estudos.pokecompose.repository.local.entities.PokemonDetailStats
+import br.com.estudos.pokecompose.repository.local.entities.Stat
 
 private fun setUrlImage(idPokemon: Int) =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokemon}.png"
@@ -32,6 +35,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         ),
     ),
 
@@ -54,6 +87,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         )
     ),
     PokemonAndDetail(
@@ -64,7 +127,8 @@ val listPokemonSample = listOf(
         ),
         pokemonDetail = PokemonDetail(
             colorTypeList = listOf(
-                TypeColoursEnum.GRASS,
+                TypeColoursEnum.DRAGON,
+                TypeColoursEnum.FIRE,
             ),
             sprites = Sprites(
                 Other(
@@ -74,6 +138,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         )
     ),
     PokemonAndDetail(
@@ -95,6 +189,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         ),
     ),
     PokemonAndDetail(
@@ -117,6 +241,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         )
     ),
     PokemonAndDetail(
@@ -138,6 +292,60 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 78,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 84,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 78,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 109,
+                    effort = 0,
+                    stat = Stat(
+                        name = "special-attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 85,
+                    effort = 0,
+                    stat = Stat(
+                        name = "special-defense",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 100,
+                    effort = 0,
+                    stat = Stat(
+                        name = "speed",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         )
     ),
     PokemonAndDetail(
@@ -159,6 +367,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         ),
     ),
     PokemonAndDetail(
@@ -180,6 +418,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         ),
     ),
     PokemonAndDetail(
@@ -201,6 +469,36 @@ val listPokemonSample = listOf(
             ),
             weight = 123,
             height = 123,
+            stats = listOf(
+                PokemonDetailStats(
+                    baseStat = 65,
+                    effort = 0,
+                    stat = Stat(
+                        name = "hp",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 105,
+                    effort = 2,
+                    stat = Stat(
+                        name = "attack",
+                        url = ""
+                    )
+                ),
+                PokemonDetailStats(
+                    baseStat = 60,
+                    effort = 0,
+                    stat = Stat(
+                        name = "defense",
+                        url = ""
+                    )
+                ),
+            ),
+            species = PokemonDetailSpecies(
+                name = "",
+                url = ""
+            )
         ),
     )
 )

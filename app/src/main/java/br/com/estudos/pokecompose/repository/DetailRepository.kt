@@ -7,6 +7,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface DetailRepository {
     suspend fun searchPokemonByName(pokemonName: String): Flow<PokemonAndDetail>
-    suspend fun searchPokemonSpecieByName(pokemonName: String): SpeciesRemote
-    suspend fun searchEvolutionChan(url: String): EvolutionChainRemote
 }

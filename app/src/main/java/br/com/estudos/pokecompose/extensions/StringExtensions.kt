@@ -6,7 +6,7 @@ import java.util.Locale
 val String.color
     get() = Color(android.graphics.Color.parseColor(this))
 
-val String.getPokeId
+val String.getUrlId
     get() = run {
         val regex = "/\\d+".toRegex()
         regex.find(this)?.value?.replace("/", "")?.toInt() ?: 0
