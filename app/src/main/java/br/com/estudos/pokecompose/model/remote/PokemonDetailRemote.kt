@@ -13,11 +13,12 @@ import com.google.gson.annotations.SerializedName
 
 data class PokemonDetailRemote(
     @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
     @SerializedName("types") val types: List<DataTypesRemote>,
     @SerializedName("sprites") val sprites: SpritesRemote,
     @SerializedName("weight") val weight: Int,
     @SerializedName("height") val height: Int,
-    @SerializedName("species") val species: PokemonDetailRemoteSpecies,
+    @SerializedName("species") val species: PokemonDetailRemoteSpecies?,
     @SerializedName("stats") val stats: List<PokemonDetailRemoteStats>,
 ) {
     fun mapPokeDetailRemoteToPokeDetail() =
@@ -36,8 +37,8 @@ data class PokemonDetailRemote(
                 )
             ),
             species = PokemonDetailSpecies(
-                name = species.name,
-                url = species.url
+                name = species?.name,
+                url = species?.url
             ),
             stats = stats.map { pokemonDetailRemoteStats ->
                 PokemonDetailStats(

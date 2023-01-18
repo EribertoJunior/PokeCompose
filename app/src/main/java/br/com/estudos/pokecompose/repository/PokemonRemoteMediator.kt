@@ -8,6 +8,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import br.com.estudos.pokecompose.extensions.getUrlId
 import br.com.estudos.pokecompose.model.local.PokemonAndDetail
+import br.com.estudos.pokecompose.model.remote.PokemonDetailRemote
 import br.com.estudos.pokecompose.model.remote.PokemonRemote
 import br.com.estudos.pokecompose.repository.local.EvolutionChainDao
 import br.com.estudos.pokecompose.repository.local.PokemonDao
@@ -86,6 +87,9 @@ class PokemonRemoteMediator(
                     val onPokemonRemoteKeyBuilt: (PokemonRemoteKey) -> Unit = {
                         listPokemonRemoteKey.add(it)
                     }
+                    val onSpeciesFound: (PokemonSpecies) -> Unit = { species ->
+                        listPokemonSpecies.add(species)
+                    }
 
                     pokemonList.forEach { pokemon ->
                         findDetailsPokemon(
@@ -94,13 +98,9 @@ class PokemonRemoteMediator(
                             nextKey = nextKey,
                             onPokemonBuilt = onPokemonBuilt,
                             onPokemonDetailsBuilt = onPokemonDetailsBuilt,
-                            onPokemonRemoteKeyBuilt = onPokemonRemoteKeyBuilt
+                            onPokemonRemoteKeyBuilt = onPokemonRemoteKeyBuilt,
+                            onSpeciesFound = onSpeciesFound
                         )
-
-                        findSpeciePokemon(pokemon = pokemon) { species ->
-                            listPokemonSpecies.add(species)
-                        }
-
                     }
 
                     pokemonRemoteKeyDao.saveAll(listPokemonRemoteKey)
@@ -124,6 +124,7 @@ class PokemonRemoteMediator(
         onPokemonBuilt: (Pokemon) -> Unit = {},
         onPokemonDetailsBuilt: (PokemonDetail) -> Unit = {},
         onPokemonRemoteKeyBuilt: (PokemonRemoteKey) -> Unit = {},
+        onSpeciesFound: (PokemonSpecies) -> Unit = {}
     ) {
         coroutineScope {
             withContext(IO) {
@@ -134,7 +135,6 @@ class PokemonRemoteMediator(
 
                 detailRemote.await().run {
                     Log.i(TAG, "Mapeando Pokemon com id: ${pokemon.url.getUrlId}")
-                    //listPokemon.add(
                     onPokemonBuilt(
                         Pokemon(
                             pokemonId = id,
@@ -142,13 +142,11 @@ class PokemonRemoteMediator(
                             imageUrl = sprites.other.officialArtwork.frontDefault
                         )
                     )
-                    //)
+
                     Log.i(TAG, "Mapeando detalhes do pokemon ${pokemon.name}")
                     onPokemonDetailsBuilt(mapPokeDetailRemoteToPokeDetail())
-                    //listPokemonDetail.add(mapPokeDetailRemoteToPokeDetail())
 
                     Log.i(TAG, "Mapeando chave remota do pokemon ${pokemon.name}")
-                    // listPokemonRemoteKey.add(
                     onPokemonRemoteKeyBuilt(
                         PokemonRemoteKey(
                             id = id.toLong(),
@@ -157,6 +155,10 @@ class PokemonRemoteMediator(
                             nextOffset = nextKey
                         )
                     )
+
+                    findSpeciePokemon(pokemonDetailRemote = this) { species ->
+                        onSpeciesFound(species)
+                    }
                 }
             }
 
@@ -164,21 +166,26 @@ class PokemonRemoteMediator(
     }
 
     private suspend fun findSpeciePokemon(
-        pokemon: PokemonRemote,
+        pokemonDetailRemote: PokemonDetailRemote,
         onSpeciesFound: (PokemonSpecies) -> Unit = {}
     ) {
         withContext(IO) {
             try {
-                val speciesRemote = async {
-                    Log.i(TAG, "Buscando dados de especie do pokemon ${pokemon.name} na PokeApi")
-                    pokemonService.searchPokemonSpecieByName(pokemonName = pokemon.name)
-                }
-                speciesRemote.await()?.let { species ->
-                    Log.i(TAG, "Mapeando especie do pokemon ${pokemon.name}")
-                    onSpeciesFound(species.mapToPokemonSpecie())
+                pokemonDetailRemote.species?.let { detailRemote ->
+                    val speciesRemote = async {
+                        Log.i(
+                            TAG,
+                            "Buscando dados de especie do pokemon ${detailRemote.name} na PokeApi"
+                        )
+                        pokemonService.searchPokemonSpecie(pokemonSpecieUrl = detailRemote.url)
+                    }
+                    speciesRemote.await()?.let { species ->
+                        Log.i(TAG, "Mapeando especie do pokemon ${detailRemote.name}")
+                        onSpeciesFound(species.mapToPokemonSpecie())
 
-                    species.evolutionChainAddressRemote.url.let { evolutionChainUrl ->
-                        findEvolutionChainPokemon(evolutionChainUrl)
+                        species.evolutionChainAddressRemote?.url?.let { evolutionChainUrl ->
+                            findEvolutionChainPokemon(evolutionChainUrl)
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -189,23 +196,23 @@ class PokemonRemoteMediator(
 
     private suspend fun findEvolutionChainPokemon(evolutionChainUrl: String) {
         coroutineScope {
-            if (searchLocalEvolutionChainById(evolutionChainUrl)) {
-                //Dados de ${pokemon.name} não foram encontrados no banco de dados.
-                try {
-                    val evolutionChainRemoteDeferred = async {
-                        Log.i(TAG, "Buscando dados de evolucoes na PokeApi")
-                        pokemonService.searchEvolutionChan(evolutionChainUrl)
-                    }
+            withContext(IO) {
+                if (searchLocalEvolutionChainById(evolutionChainUrl)) {
+                    //Dados de ${pokemon.name} não foram encontrados no banco de dados.
+                    try {
+                        val evolutionChainRemoteDeferred = async {
+                            Log.i(TAG, "Buscando dados de evolucoes na PokeApi")
+                            pokemonService.searchEvolutionChan(evolutionChainUrl)
+                        }
 
-                    evolutionChainRemoteDeferred.await().let { evolutionChainRemote ->
-                        Log.i(
-                            TAG,
-                            "Armazenando dados de evolucoes de id ${evolutionChainRemote.id} no banco de dados"
-                        )
-                        evolutionChainDao.save(evolutionChainRemote.mapToEvolutionChain())
+                        evolutionChainRemoteDeferred.await().let { evolutionChainRemote ->
+                            Log.i(
+                                TAG, "Armazenando dados de evolucoes de id ${evolutionChainRemote.id} no banco de dados")
+                            evolutionChainDao.save(evolutionChainRemote.mapToEvolutionChain())
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "findEvolutionChainPokemon: ${e.message}")
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "findEvolutionChainPokemon: ${e.message}")
                 }
             }
         }

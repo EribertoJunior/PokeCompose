@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class PokemonSpecies(
     @PrimaryKey val pokemonSpeciesId: Int = 0,
     val pokemonOwnerId: Int = 0,
-    val pokemonSpeciesEvolutionChainId: Int,
+    val pokemonSpeciesEvolutionChainId: Int = 0,
     @Embedded val evolutionChainAddress: EvolutionChainAddress,
     @Embedded val flavorTextEntreies: FlavorTextEntreies
 ){
@@ -20,7 +20,7 @@ data class PokemonSpecies(
 }
 
 data class EvolutionChainAddress(
-    val url: String
+    val url: String?
 )
 
 data class FlavorTextEntreies(

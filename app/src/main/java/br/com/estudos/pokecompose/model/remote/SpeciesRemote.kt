@@ -10,14 +10,14 @@ import com.google.gson.annotations.SerializedName
 
 data class SpeciesRemote(
     @SerializedName("id") val id: Int,
-    @SerializedName("evolution_chain") val evolutionChainAddressRemote: EvolutionChainAddressRemote,
+    @SerializedName("evolution_chain") val evolutionChainAddressRemote: EvolutionChainAddressRemote?,
     @SerializedName("flavor_text_entries") val flavorTextEntreyRemotes: List<FlavorTextEntreiesRemote>
 ) {
     fun mapToPokemonSpecie(): PokemonSpecies {
         return PokemonSpecies(
             pokemonSpeciesId = id,
             pokemonOwnerId = id,
-            evolutionChainAddress = EvolutionChainAddress(evolutionChainAddressRemote.url),
+            evolutionChainAddress = EvolutionChainAddress(url = evolutionChainAddressRemote?.url),
             flavorTextEntreies = flavorTextEntreyRemotes
                 .filter { it.languageRemote.name == "en" }
                 .map {
@@ -29,7 +29,7 @@ data class SpeciesRemote(
 
                 }
                 .first(),
-            pokemonSpeciesEvolutionChainId = evolutionChainAddressRemote.url.getUrlId
+            pokemonSpeciesEvolutionChainId = evolutionChainAddressRemote?.url?.getUrlId ?: 0
         )
     }
 }

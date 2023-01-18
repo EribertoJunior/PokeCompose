@@ -46,8 +46,8 @@ data class Sprites(
 )
 
 data class PokemonDetailSpecies(
-    val name: String,
-    val url: String
+    val name: String?,
+    val url: String?
 )
 
 data class Other(
