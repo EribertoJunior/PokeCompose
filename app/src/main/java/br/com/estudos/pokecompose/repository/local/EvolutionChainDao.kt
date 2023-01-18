@@ -12,6 +12,9 @@ interface EvolutionChainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveAll(evolutionChain: List<EvolutionChain>)
 
-    @Query("Select * From EvolutionChain Where id = :chainId")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun save(evolutionChain: EvolutionChain)
+
+    @Query("Select * From EvolutionChain Where evolutionChainId = :chainId")
     fun searchEvolutionChainById(chainId: Int): EvolutionChain?
 }

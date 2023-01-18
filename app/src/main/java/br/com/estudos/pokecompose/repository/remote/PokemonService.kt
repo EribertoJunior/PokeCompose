@@ -20,7 +20,7 @@ interface PokemonService {
     suspend fun getPokemonDetails(@Path("name") pokemonName: String) : PokemonDetailRemote
 
     @GET("pokemon-species/{name}")
-    suspend fun searchPokemonSpecieByName(@Path("name") pokemonName: String): SpeciesRemote
+    suspend fun searchPokemonSpecieByName(@Path("name") pokemonName: String): SpeciesRemote?
 
     @GET
     suspend fun searchEvolutionChan(@Url evolutionChanUrl: String): EvolutionChainRemote

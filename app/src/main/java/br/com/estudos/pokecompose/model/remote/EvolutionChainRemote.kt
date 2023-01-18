@@ -25,7 +25,7 @@ data class EvolutionChainRemote(
         mutableListSpecieToEvolution.addAll(buildListOfEvolutions(chain.evolvesTo))
 
         return EvolutionChain(
-            id = id,
+            evolutionChainId = id,
             evolutionList = mutableListSpecieToEvolution
         )
     }

@@ -1,5 +1,6 @@
 package br.com.estudos.pokecompose.model.remote
 
+import br.com.estudos.pokecompose.extensions.getUrlId
 import br.com.estudos.pokecompose.repository.local.entities.EvolutionChainAddress
 import br.com.estudos.pokecompose.repository.local.entities.FlavorTextEntreies
 import br.com.estudos.pokecompose.repository.local.entities.Language
@@ -28,6 +29,7 @@ data class SpeciesRemote(
 
                 }
                 .first(),
+            pokemonSpeciesEvolutionChainId = evolutionChainAddressRemote.url.getUrlId
         )
     }
 }

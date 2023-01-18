@@ -7,10 +7,14 @@ import br.com.estudos.pokecompose.repository.local.converters.ConverterSpecieToE
 
 @Entity
 data class EvolutionChain(
-    @PrimaryKey val id: Int,
+    @PrimaryKey val evolutionChainId: Int,
     @TypeConverters(ConverterSpecieToEvolution::class)
     val evolutionList: List<SpecieToEvolution>
-)
+){
+    companion object{
+        const val EVOLUTION_CHAIN_ID = "evolutionChainId"
+    }
+}
 
 data class SpecieToEvolution(
     val name: String,

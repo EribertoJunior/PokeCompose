@@ -16,7 +16,7 @@ interface PokemonDao {
     suspend fun saveAll(pokemons: List<Pokemon>)
 
     @Transaction
-    @Query("Select * From Pokemon")
+    @Query("Select * From Pokemon order by pokemonId")
     fun getPokemons(): PagingSource<Int, PokemonAndDetail>
 
     @Query("Delete From Pokemon")

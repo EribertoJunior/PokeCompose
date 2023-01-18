@@ -8,12 +8,14 @@ import androidx.room.PrimaryKey
 data class PokemonSpecies(
     @PrimaryKey val pokemonSpeciesId: Int = 0,
     val pokemonOwnerId: Int = 0,
+    val pokemonSpeciesEvolutionChainId: Int,
     @Embedded val evolutionChainAddress: EvolutionChainAddress,
     @Embedded val flavorTextEntreies: FlavorTextEntreies
 ){
     companion object {
         const val POKEMON_SPECIES_ID = "pokemonSpeciesId"
         const val POKEMON_SPECIES_OWNER_ID = "pokemonOwnerId"
+        const val POKEMON_SPECIES_EVOLUTION_CHAIN_ID = "pokemonSpeciesEvolutionChainId"
     }
 }
 

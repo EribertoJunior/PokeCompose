@@ -3,11 +3,14 @@ package br.com.estudos.pokecompose.ui.screens
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
+import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -33,7 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -130,6 +134,16 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
             }
         }
 
+        pokemonAndDetail.specieAndEvolutionChain?.pokemonSpecies?.flavorTextEntreies?.flavorText?.let {
+            Text(
+                text = it,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+
         Card(
             modifier = Modifier
                 .padding(all = 8.dp)
@@ -137,11 +151,17 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
             shape = RoundedCornerShape(15.dp),
             elevation = 8.dp
         ) {
-            Column() {
+            Column(verticalArrangement = spacedBy(8.dp)) {
+                Text(
+                    text = "Base stats",
+                    modifier = Modifier.padding(start = 8.dp, top = 8.dp),
+                    fontWeight = FontWeight.Bold
+                )
+
                 pokemonAndDetail.pokemonDetail.stats.forEach { stats ->
                     Row(
                         modifier = Modifier
-                            .padding(all = 8.dp)
+                            .padding(horizontal = 8.dp)
                             .fillMaxWidth(),
                         horizontalArrangement = SpaceBetween
                     ) {
@@ -151,7 +171,7 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
                             //modifier = Modifier.padding(end = 8.dp)
                         )
 
-                        val widthBar = rememberSaveable{ 200 }
+                        val widthBar = rememberSaveable { 200 }
                         ProgressBarStat(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(15.dp))
@@ -164,6 +184,38 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier)
+            }
+        }
+
+        pokemonAndDetail.specieAndEvolutionChain?.evolutionChain?.evolutionList?.let { evolutionList ->
+            Row(modifier = Modifier
+                .padding(all = 8.dp)
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                evolutionList.forEach {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.imageUrl)
+                                .crossfade(true)
+                                .build(),
+                            error = painterResource(
+                                id = R.drawable.pokebola
+                            ),
+                            placeholder = painterResource(id = R.drawable.pokebola)
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .align(CenterVertically),
+                        /*.clip(CircleShape)*/
+                        contentScale = ContentScale.Crop,
+                    )
+                }
             }
         }
     }
@@ -171,16 +223,16 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
 
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, showSystemUi = true)
-@Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2)
-@Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4)
-@Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5)
-@Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6)
-@Preview("Pokemon List (big font)", fontScale = 1.5f)
-@Preview("Pokemon List (small screen)", widthDp = 320, heightDp = 480)
+// @Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2, uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2)
+// @Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4, uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4)
+// @Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5)
+// @Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6, uiMode = Configuration.UI_MODE_NIGHT_YES)
+// @Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6)
+// @Preview("Pokemon List (big font)", fontScale = 1.5f)
+// @Preview("Pokemon List (small screen)", widthDp = 320, heightDp = 480)
 @Composable
 fun DetailsScreenPreview() {
     PokeComposeTheme {

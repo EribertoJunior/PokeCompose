@@ -20,7 +20,7 @@ data class PokemonDetailRemote(
     @SerializedName("species") val species: PokemonDetailRemoteSpecies,
     @SerializedName("stats") val stats: List<PokemonDetailRemoteStats>,
 ) {
-    fun pokeDetailRemoteToPokeDetail() =
+    fun mapPokeDetailRemoteToPokeDetail() =
         PokemonDetail(
             pokemonDetailId = id,
             pokemonOwnerId = id,

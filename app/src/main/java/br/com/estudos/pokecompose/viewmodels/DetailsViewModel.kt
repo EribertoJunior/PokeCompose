@@ -18,7 +18,7 @@ class DetailsViewModel(private val detailRepository: DetailRepository) : ViewMod
             PokemonAndDetail(
                 pokemon = Pokemon(),
                 pokemonDetail = PokemonDetail(),
-                pokemonSpecies = null
+                specieAndEvolutionChain = null
             )
         )
     val uiState get() = _uiState.asStateFlow()
