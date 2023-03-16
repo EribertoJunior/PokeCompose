@@ -26,11 +26,17 @@ import br.com.estudos.pokecompose.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (PokemonAndDetail) -> Unit = {}) {
-    HomeScreen(pokemonAndDetailLazyPagingItems = viewModel.uiState.collectAsLazyPagingItems(), onClickPokemon)
+    HomeScreen(
+        pokemonAndDetailLazyPagingItems = viewModel.uiState.collectAsLazyPagingItems(),
+        onClickPokemon
+    )
 }
 
 @Composable
-fun HomeScreen(pokemonAndDetailLazyPagingItems: LazyPagingItems<PokemonAndDetail>, onClickPokemon: (PokemonAndDetail) -> Unit = {}) {
+fun HomeScreen(
+    pokemonAndDetailLazyPagingItems: LazyPagingItems<PokemonAndDetail>,
+    onClickPokemon: (PokemonAndDetail) -> Unit = {}
+) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
@@ -41,7 +47,9 @@ fun HomeScreen(pokemonAndDetailLazyPagingItems: LazyPagingItems<PokemonAndDetail
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            items(items = pokemonAndDetailLazyPagingItems, key = { it.pokemon.pokemonId }) { pokemon ->
+            items(
+                items = pokemonAndDetailLazyPagingItems,
+                key = { it.pokemon.pokemonId }) { pokemon ->
                 pokemon?.let {
                     PokemonItem(pokemonAndDetail = it, onClickPokemon = onClickPokemon)
                 }
