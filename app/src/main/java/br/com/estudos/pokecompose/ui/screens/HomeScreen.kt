@@ -18,11 +18,11 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import br.com.estudos.pokecompose.model.local.PokemonAndDetail
+import br.com.estudos.pokecompose.data.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.ui.components.LoadingAnimation
 import br.com.estudos.pokecompose.ui.components.PokemonItem
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
-import br.com.estudos.pokecompose.viewmodels.HomeViewModel
+import br.com.estudos.pokecompose.ui.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, onClickPokemon: (PokemonAndDetail) -> Unit = {}) {

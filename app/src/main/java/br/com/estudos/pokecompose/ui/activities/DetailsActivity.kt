@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Surface
 import br.com.estudos.pokecompose.ui.screens.DetailsScreen
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
-import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
+import br.com.estudos.pokecompose.ui.viewmodels.DetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

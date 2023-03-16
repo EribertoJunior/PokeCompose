@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.estudos.pokecompose.extensions.color
-import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
+import br.com.estudos.pokecompose.data.model.local.enums.TypeColoursEnum
 import java.util.Locale
 
 @Composable

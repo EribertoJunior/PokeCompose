@@ -1,15 +1,10 @@
 package br.com.estudos.pokecompose.di
 
-import br.com.estudos.pokecompose.repository.DetailRepository
-import br.com.estudos.pokecompose.repository.DetailRepositoryImpl
-import br.com.estudos.pokecompose.repository.PokemonRemoteMediator
-import br.com.estudos.pokecompose.repository.HomeRepository
-import br.com.estudos.pokecompose.repository.HomeRepositoryImpl
-import br.com.estudos.pokecompose.repository.local.RoomConfig
-import br.com.estudos.pokecompose.repository.remote.PokemonPagingSource
-import br.com.estudos.pokecompose.repository.remote.RetrofitConfig
-import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
-import br.com.estudos.pokecompose.viewmodels.HomeViewModel
+import br.com.estudos.pokecompose.data.dataBase.local.RoomConfig
+import br.com.estudos.pokecompose.data.dataBase.remote.PokemonPagingSource
+import br.com.estudos.pokecompose.data.dataBase.remote.RetrofitConfig
+import br.com.estudos.pokecompose.ui.viewmodels.DetailsViewModel
+import br.com.estudos.pokecompose.ui.viewmodels.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -25,8 +20,18 @@ val modules = module {
 
     factory { PokemonPagingSource(get()) }
 
-    factory<HomeRepository> { HomeRepositoryImpl(get(), get()) }
-    factory<DetailRepository> { DetailRepositoryImpl(get(), get()) }
+    factory<br.com.estudos.pokecompose.data.repository.HomeRepository> {
+        br.com.estudos.pokecompose.data.repository.HomeRepositoryImpl(
+            get(),
+            get()
+        )
+    }
+    factory<br.com.estudos.pokecompose.data.repository.DetailRepository> {
+        br.com.estudos.pokecompose.data.repository.DetailRepositoryImpl(
+            get(),
+            get()
+        )
+    }
 
     factory { get<RoomConfig>().pokemonDao() }
     factory { get<RoomConfig>().pokemonRemoteKeyDao() }
@@ -35,7 +40,7 @@ val modules = module {
     factory { get<RoomConfig>().pokemonEvolutionChainDao() }
 
     factory {
-        PokemonRemoteMediator(
+        br.com.estudos.pokecompose.data.repository.PokemonRemoteMediator(
             pokemonDao = get(),
             pokemonDetailDao = get(),
             pokemonRemoteKeyDao = get(),

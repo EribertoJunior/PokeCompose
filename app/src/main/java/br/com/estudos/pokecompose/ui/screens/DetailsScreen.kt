@@ -44,11 +44,11 @@ import androidx.compose.ui.unit.sp
 import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.extensions.titlecase
-import br.com.estudos.pokecompose.model.local.PokemonAndDetail
+import br.com.estudos.pokecompose.data.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.samples.listPokemonSample
 import br.com.estudos.pokecompose.ui.components.ProgressBarStat
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
-import br.com.estudos.pokecompose.viewmodels.DetailsViewModel
+import br.com.estudos.pokecompose.ui.viewmodels.DetailsViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 

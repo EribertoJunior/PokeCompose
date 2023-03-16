@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.estudos.pokecompose.data.dataBase.local.entities.PokemonDetailStats
+import br.com.estudos.pokecompose.data.dataBase.local.entities.Stat
+import br.com.estudos.pokecompose.data.model.local.enums.TypeColoursEnum
 import br.com.estudos.pokecompose.extensions.color
-import br.com.estudos.pokecompose.model.local.enums.TypeColoursEnum
-import br.com.estudos.pokecompose.repository.local.entities.PokemonDetailStats
-import br.com.estudos.pokecompose.repository.local.entities.Stat
 import br.com.estudos.pokecompose.ui.theme.PokeComposeTheme
 
 @Composable

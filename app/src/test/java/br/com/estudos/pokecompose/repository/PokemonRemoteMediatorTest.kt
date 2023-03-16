@@ -1,17 +1,14 @@
 package br.com.estudos.pokecompose.repository
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.LoadType
-import androidx.paging.PagingConfig
-import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
-import br.com.estudos.pokecompose.model.local.PokemonAndDetail
-import br.com.estudos.pokecompose.model.remote.ListPokemonRemote
-import br.com.estudos.pokecompose.model.remote.PokemonDetailRemote
-import br.com.estudos.pokecompose.repository.local.PokemonDao
-import br.com.estudos.pokecompose.repository.local.PokemonDetailDao
-import br.com.estudos.pokecompose.repository.local.PokemonRemoteKeyDao
-import br.com.estudos.pokecompose.repository.remote.PokemonService
+import androidx.paging.*
+import br.com.estudos.pokecompose.data.dataBase.local.PokemonDao
+import br.com.estudos.pokecompose.data.dataBase.local.PokemonDetailDao
+import br.com.estudos.pokecompose.data.dataBase.local.PokemonRemoteKeyDao
+import br.com.estudos.pokecompose.data.dataBase.remote.PokemonService
+import br.com.estudos.pokecompose.data.model.local.PokemonAndDetail
+import br.com.estudos.pokecompose.data.model.remote.ListPokemonRemote
+import br.com.estudos.pokecompose.data.model.remote.PokemonDetailRemote
+import br.com.estudos.pokecompose.data.repository.PokemonRemoteMediator
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
