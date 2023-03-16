@@ -1,7 +1,6 @@
 package br.com.estudos.pokecompose.data.repository
 
 import android.net.Uri
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -11,7 +10,8 @@ import br.com.estudos.pokecompose.data.dataBase.local.entities.Pokemon
 import br.com.estudos.pokecompose.data.dataBase.local.entities.PokemonDetail
 import br.com.estudos.pokecompose.data.dataBase.local.entities.PokemonRemoteKey
 import br.com.estudos.pokecompose.data.dataBase.local.entities.PokemonSpecies
-import br.com.estudos.pokecompose.data.dataBase.remote.PokemonService
+import br.com.estudos.pokecompose.data.dataSource.local.LocalDataSource
+import br.com.estudos.pokecompose.data.dataSource.remote.RemoteDataSource
 import br.com.estudos.pokecompose.data.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.data.model.remote.PokemonDetailRemote
 import br.com.estudos.pokecompose.data.model.remote.PokemonRemote
@@ -23,13 +23,10 @@ import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalPagingApi::class)
 class PokemonRemoteMediator(
-    private val pokemonDao: PokemonDao,
-    private val pokemonRemoteKeyDao: PokemonRemoteKeyDao,
-    private val pokemonDetailDao: PokemonDetailDao,
-    private val pokemonSpeciesDao: PokemonSpeciesDao,
-    private val evolutionChainDao: EvolutionChainDao,
-    private val pokemonService: PokemonService,
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource
 ) : RemoteMediator<Int, PokemonAndDetail>() {
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, PokemonAndDetail>
@@ -58,15 +55,15 @@ class PokemonRemoteMediator(
 
             coroutineScope {
                 withContext(IO) {
-                    val response = pokemonService.getListPokemon(limit = PAGE_SIZE, offset = offSet)
+                    val response = remoteDataSource.getListPokemon(limit = PAGE_SIZE, offset = offSet)
                     val pokemonList = response.results
                     val endOfPaginationReached = pokemonList.isEmpty()
                     val prevKey = getOffsetParameter(response.previous)
                     val nextKey = getOffsetParameter(response.next)
 
                     // if(loadType == LoadType.REFRESH){
-                    //     pokemonDao.deleteAll()
-                    //     pokemonRemoteKeyDao.deleteAll()
+                    //     pokemonDao.deleteAllPokemon()
+                    //     pokemonRemoteKeyDao.deleteAllPokemon()
                     // }
 
                     val listPokemonRemoteKey: ArrayList<PokemonRemoteKey> = arrayListOf()
@@ -99,16 +96,17 @@ class PokemonRemoteMediator(
                         )
                     }
 
-                    pokemonRemoteKeyDao.saveAll(listPokemonRemoteKey)
-                    pokemonDetailDao.saveAll(listPokemonDetail)
-                    pokemonDao.saveAll(listPokemon)
-                    pokemonSpeciesDao.saveAllSpecie(listPokemonSpecies)
+                    localDataSource.saveAllRemoteKey(listPokemonRemoteKey)
+                    localDataSource.saveAllPokemonDetail(listPokemonDetail)
+                    localDataSource.saveAllPokemons(listPokemon)
+                    localDataSource.saveAllPokemonSpecies(listPokemonSpecies)
 
                     MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "load: ${e.message}")
+            e.printStackTrace()
+            //Log.e(TAG, "load: ${e.message}")
             MediatorResult.Error(e)
         }
     }
@@ -125,12 +123,10 @@ class PokemonRemoteMediator(
         coroutineScope {
             withContext(IO) {
                 val detailRemote = async {
-                    Log.i(TAG, "Buscando detalhes do pokemon ${pokemon.name} na PokeApi")
-                    pokemonService.getPokemonDetails(pokemon.name)
+                    remoteDataSource.getPokemonDetails(pokemon.name)
                 }
 
                 detailRemote.await().run {
-                    Log.i(TAG, "Mapeando Pokemon com id: ${pokemon.url.getUrlId}")
                     onPokemonBuilt(
                         Pokemon(
                             pokemonId = id,
@@ -139,10 +135,8 @@ class PokemonRemoteMediator(
                         )
                     )
 
-                    Log.i(TAG, "Mapeando detalhes do pokemon ${pokemon.name}")
                     onPokemonDetailsBuilt(mapPokeDetailRemoteToPokeDetail())
 
-                    Log.i(TAG, "Mapeando chave remota do pokemon ${pokemon.name}")
                     onPokemonRemoteKeyBuilt(
                         PokemonRemoteKey(
                             id = id.toLong(),
@@ -169,14 +163,9 @@ class PokemonRemoteMediator(
             try {
                 pokemonDetailRemote.species?.let { detailRemote ->
                     val speciesRemote = async {
-                        Log.i(
-                            TAG,
-                            "Buscando dados de especie do pokemon ${detailRemote.name} na PokeApi"
-                        )
-                        pokemonService.searchPokemonSpecie(pokemonSpecieUrl = detailRemote.url)
+                        remoteDataSource.searchPokemonSpecie(pokemonSpecieUrl = detailRemote.url)
                     }
                     speciesRemote.await()?.let { species ->
-                        Log.i(TAG, "Mapeando especie do pokemon ${detailRemote.name}")
                         onSpeciesFound(species.mapToPokemonSpecie())
 
                         species.evolutionChainAddressRemote?.url?.let { evolutionChainUrl ->
@@ -185,7 +174,8 @@ class PokemonRemoteMediator(
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "findSpeciePokemon: ${e.message}")
+                e.printStackTrace()
+                //Log.e(TAG, "findSpeciePokemon: ${e.message}")
             }
         }
     }
@@ -197,17 +187,15 @@ class PokemonRemoteMediator(
                     //Dados de ${pokemon.name} não foram encontrados no banco de dados.
                     try {
                         val evolutionChainRemoteDeferred = async {
-                            Log.i(TAG, "Buscando dados de evolucoes na PokeApi")
-                            pokemonService.searchEvolutionChan(evolutionChainUrl)
+                            remoteDataSource.searchEvolutionChan(evolutionChainUrl)
                         }
 
                         evolutionChainRemoteDeferred.await().let { evolutionChainRemote ->
-                            Log.i(
-                                TAG, "Armazenando dados de evolucoes de id ${evolutionChainRemote.id} no banco de dados")
-                            evolutionChainDao.save(evolutionChainRemote.mapToEvolutionChain())
+                            localDataSource.saveEvolutionChain(evolutionChainRemote.mapToEvolutionChain())
                         }
                     } catch (e: Exception) {
-                        Log.e(TAG, "findEvolutionChainPokemon: ${e.message}")
+                        e.printStackTrace()
+                        //Log.e(TAG, "findEvolutionChainPokemon: ${e.message}")
                     }
                 }
             }
@@ -217,7 +205,7 @@ class PokemonRemoteMediator(
     private suspend fun searchLocalEvolutionChainById(evolutionChainUrl: String): Boolean {
         val evolutionChainLocal = withContext(IO) {
             //Buscando dados de evolucao no banco de dados
-            evolutionChainDao.searchEvolutionChainById(evolutionChainUrl.getUrlId)
+            localDataSource.searchEvolutionChainById(evolutionChainUrl.getUrlId)
         }
         return evolutionChainLocal == null
     }
@@ -225,14 +213,14 @@ class PokemonRemoteMediator(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { pokemonAndDetail ->
-                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
+                localDataSource.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
             }
     }
 
     private suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.pokemon?.name?.let { pokemonName ->
-                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonName)
+                localDataSource.getPokemonRemoteKeyFromName(pokemonName)
             }
         }
     }
@@ -240,7 +228,7 @@ class PokemonRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { pokemonAndDetail ->
-                pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
+                localDataSource.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
             }
     }
 
@@ -253,6 +241,5 @@ class PokemonRemoteMediator(
     companion object {
         const val PAGE_SIZE = 100
         const val OFFSET = 100
-        private const val TAG = "PokemonRemoteMediator <>"
     }
 }
