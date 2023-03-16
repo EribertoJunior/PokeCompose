@@ -1,10 +1,8 @@
 package br.com.estudos.pokecompose.repository
 
 import androidx.paging.*
-import br.com.estudos.pokecompose.data.dataBase.local.PokemonDao
-import br.com.estudos.pokecompose.data.dataBase.local.PokemonDetailDao
-import br.com.estudos.pokecompose.data.dataBase.local.PokemonRemoteKeyDao
-import br.com.estudos.pokecompose.data.dataBase.remote.PokemonService
+import br.com.estudos.pokecompose.data.dataSource.local.LocalDataSourceImpl
+import br.com.estudos.pokecompose.data.dataSource.remote.RemoteDataSourceImpl
 import br.com.estudos.pokecompose.data.model.local.PokemonAndDetail
 import br.com.estudos.pokecompose.data.model.remote.ListPokemonRemote
 import br.com.estudos.pokecompose.data.model.remote.PokemonDetailRemote
@@ -19,18 +17,14 @@ import org.junit.Test
 @ExperimentalPagingApi
 internal class PokemonRemoteMediatorTest {
 
-    private val pokemonDaoMock = mockk<PokemonDao>()
-    private val pokemonDetailDaoMock = mockk<PokemonDetailDao>()
-    private val pokemonRemoteKeyDaoMock = mockk<PokemonRemoteKeyDao>()
-    private val pokemonServiceMock = mockk<PokemonService>()
+    private val localDataSourceMock = mockk<LocalDataSourceImpl>()
+    private val remoteDataSourceMock = mockk<RemoteDataSourceImpl>()
     private var response = mockk<ListPokemonRemote>()
     private val pokemonDetailMock = mockk<PokemonDetailRemote>(relaxed = true)
     private val remoteMediatorSpy = spyk(
         PokemonRemoteMediator(
-            pokemonDao = pokemonDaoMock,
-            pokemonRemoteKeyDao = pokemonRemoteKeyDaoMock,
-            pokemonService = pokemonServiceMock,
-            pokemonDetailDao = pokemonDetailDaoMock
+            localDataSource = localDataSourceMock,
+            remoteDataSource = remoteDataSourceMock
         )
     )
 
@@ -47,12 +41,18 @@ internal class PokemonRemoteMediatorTest {
         coEvery { response.next } answers { "https://pokeapi.co/api/v2/pokemon?offset=10&limit=10" }
         coEvery { remoteMediatorSpy.getOffsetParameter(any()) } returns 1
 
-        coEvery { pokemonServiceMock.getListPokemon(limit = 100, offset = 0) } answers { response }
-        coEvery { pokemonServiceMock.getPokemonDetails(any()) } answers { pokemonDetailMock }
+        coEvery {
+            remoteDataSourceMock.getListPokemon(
+                limit = 100,
+                offset = 0
+            )
+        } answers { response }
+        coEvery { remoteDataSourceMock.getPokemonDetails(any()) } answers { pokemonDetailMock }
 
-        coEvery { pokemonDaoMock.saveAll(any()) } answers {}
-        coEvery { pokemonRemoteKeyDaoMock.saveAll(any()) } answers {}
-        coEvery { pokemonDetailDaoMock.saveAll(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemons(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllRemoteKey(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemonDetail(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemonSpecies(any()) } answers {}
 
         val result = runBlocking {
             remoteMediatorSpy.load(LoadType.REFRESH, getPagingState())
@@ -70,11 +70,17 @@ internal class PokemonRemoteMediatorTest {
         coEvery { response.next } answers { null }
         coEvery { remoteMediatorSpy.getOffsetParameter(any()) } returns null
 
-        coEvery { pokemonServiceMock.getListPokemon(limit = 100, offset = 0) } answers { response }
+        coEvery {
+            remoteDataSourceMock.getListPokemon(
+                limit = 100,
+                offset = 0
+            )
+        } answers { response }
 
-        coEvery { pokemonDetailDaoMock.saveAll(any()) } answers {}
-        coEvery { pokemonDaoMock.saveAll(any()) } answers {}
-        coEvery { pokemonRemoteKeyDaoMock.saveAll(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemonDetail(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemons(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllRemoteKey(any()) } answers {}
+        coEvery { localDataSourceMock.saveAllPokemonSpecies(any()) } answers {}
 
         val result = runBlocking {
             remoteMediatorSpy.load(LoadType.REFRESH, getPagingState())
@@ -87,7 +93,7 @@ internal class PokemonRemoteMediatorTest {
     @Test
     fun `refresh Load Returns Error Result When Error Occurs`() {
 
-        coEvery { pokemonServiceMock.getListPokemon(limit = 100, offset = 0) }.throws(
+        coEvery { remoteDataSourceMock.getListPokemon(limit = 100, offset = 0) }.throws(
             RuntimeException()
         )
 
