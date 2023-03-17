@@ -37,7 +37,7 @@ class LocalDataSourceImpl(
         return pokemonRemoteKeyDao.saveAll(pokemonRemoteKeys)
     }
 
-    override suspend fun getPokemonRemoteKeyFromName(pokemonName: String): PokemonRemoteKey {
+    override suspend fun getPokemonRemoteKeyByName(pokemonName: String): PokemonRemoteKey {
         return pokemonRemoteKeyDao.getPokemonRemoteKeyFromName(pokemonName)
     }
 

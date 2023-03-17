@@ -213,14 +213,14 @@ class PokemonRemoteMediator(
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { pokemonAndDetail ->
-                localDataSource.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
+                localDataSource.getPokemonRemoteKeyByName(pokemonAndDetail.pokemon.name)
             }
     }
 
     private suspend fun getClosestRemoteKeyToCurrentPosition(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.pokemon?.name?.let { pokemonName ->
-                localDataSource.getPokemonRemoteKeyFromName(pokemonName)
+                localDataSource.getPokemonRemoteKeyByName(pokemonName)
             }
         }
     }
@@ -228,7 +228,7 @@ class PokemonRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokemonAndDetail>): PokemonRemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { pokemonAndDetail ->
-                localDataSource.getPokemonRemoteKeyFromName(pokemonAndDetail.pokemon.name)
+                localDataSource.getPokemonRemoteKeyByName(pokemonAndDetail.pokemon.name)
             }
     }
 

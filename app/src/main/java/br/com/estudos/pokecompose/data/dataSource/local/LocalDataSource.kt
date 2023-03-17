@@ -18,7 +18,7 @@ interface LocalDataSource {
 
     suspend fun saveAllRemoteKey(pokemonRemoteKeys: List<PokemonRemoteKey>)
 
-    suspend fun getPokemonRemoteKeyFromName(pokemonName: String): PokemonRemoteKey
+    suspend fun getPokemonRemoteKeyByName(pokemonName: String): PokemonRemoteKey
 
     suspend fun deleteAllRemoteKey()
 
