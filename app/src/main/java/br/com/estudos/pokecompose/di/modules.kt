@@ -33,7 +33,6 @@ val modules = module {
     }
     factory<DetailRepository> {
         DetailRepositoryImpl(
-            get(),
             get()
         )
     }
