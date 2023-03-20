@@ -16,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.estudos.pokecompose.R
 import br.com.estudos.pokecompose.extensions.color
 import br.com.estudos.pokecompose.data.model.local.enums.TypeColoursEnum
 import java.util.Locale
@@ -30,14 +32,18 @@ fun PokemonType(typeColoursEnum: TypeColoursEnum) {
         backgroundColor = typeColoursEnum.codColor.color,
         contentColor = Color.White
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(4.dp)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(4.dp)
+        ) {
             Image(
                 painter = painterResource(
                     id = getDrawableId(
                         typeName = typeColoursEnum.name,
                         LocalContext.current
                     )
-                ), contentDescription = "Tipo ${typeColoursEnum.name}",
+                ),
+                contentDescription = stringResource(R.string.content_description_type, typeColoursEnum.name),
                 modifier = Modifier
                     .width(20.dp)
                     .height(20.dp)
@@ -45,9 +51,10 @@ fun PokemonType(typeColoursEnum: TypeColoursEnum) {
 
             Text(
                 text = typeColoursEnum.name.lowercase().replaceFirstChar {
-                    if (it.isLowerCase()) it.titlecase(
-                        Locale.getDefault()
-                    ) else it.toString()
+                    if (it.isLowerCase())
+                        it.titlecase(Locale.getDefault())
+                    else
+                        it.toString()
                 },
                 modifier = Modifier.padding(horizontal = 4.dp)
             )

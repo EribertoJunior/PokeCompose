@@ -36,6 +36,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -168,12 +171,19 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
 
                         Text(
                             text = stats.stat.name.titlecase,
-                            //modifier = Modifier.padding(end = 8.dp)
                         )
 
                         val widthBar = rememberSaveable { 200 }
+
+                        val progressBarStatContentDescription = stringResource(
+                            R.string.content_description_progress_bar_stat,
+                            stats.stat.name
+                        )
                         ProgressBarStat(
                             modifier = Modifier
+                                .clearAndSetSemantics {
+                                    contentDescription = progressBarStatContentDescription
+                                }
                                 .clip(RoundedCornerShape(15.dp))
                                 .height(20.dp)
                                 .width(widthBar.dp)
@@ -223,16 +233,6 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
 
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Preview(showBackground = true, showSystemUi = true)
-// @Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2, uiMode = Configuration.UI_MODE_NIGHT_YES)
-// @Preview("Pokemon List Content - Pixel 2", device = Devices.PIXEL_2)
-// @Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4, uiMode = Configuration.UI_MODE_NIGHT_YES)
-// @Preview("Pokemon List Content - Pixel 4", device = Devices.PIXEL_4)
-// @Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5, uiMode = Configuration.UI_MODE_NIGHT_YES)
-// @Preview("Pokemon List Content - Nexus 5", device = Devices.NEXUS_5)
-// @Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6, uiMode = Configuration.UI_MODE_NIGHT_YES)
-// @Preview("Pokemon List Content - Nexus 6", device = Devices.NEXUS_6)
-// @Preview("Pokemon List (big font)", fontScale = 1.5f)
-// @Preview("Pokemon List (small screen)", widthDp = 320, heightDp = 480)
 @Composable
 fun DetailsScreenPreview() {
     PokeComposeTheme {

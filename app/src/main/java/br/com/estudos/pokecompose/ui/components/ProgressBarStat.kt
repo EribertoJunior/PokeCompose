@@ -61,7 +61,6 @@ fun ProgressBarStat(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(15.dp))
-                //.height(20.dp)
                 .background(Brush.horizontalGradient(
                     colors = colors.map {
                         it

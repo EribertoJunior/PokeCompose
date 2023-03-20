@@ -6,4 +6,8 @@
     <string name="height">Altura</string>
     <string name="weight">Peso</string>
     <string name="pokemon_details">Detalhes do pokémon</string>
+    <string name="content_description_type">Tipo %1$s</string>
+    <string name="content_description_progress_bar_stat">Barra de progresso de %1$s</string>
+    <string name="pokemon_image_content_description">Imagem do pokémon %1$s</string>
+    <string name="loading_items_content_description">Carregando pokémons</string>
 </resources>
