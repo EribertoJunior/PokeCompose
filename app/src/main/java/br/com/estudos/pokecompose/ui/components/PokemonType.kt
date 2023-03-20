@@ -24,7 +24,12 @@ import java.util.Locale
 
 @Composable
 fun PokemonType(typeColoursEnum: TypeColoursEnum) {
-    Card(shape = RoundedCornerShape(8.dp), elevation = 8.dp, backgroundColor = typeColoursEnum.codColor.color, contentColor = Color.White) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        elevation = 8.dp,
+        backgroundColor = typeColoursEnum.codColor.color,
+        contentColor = Color.White
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(4.dp)) {
             Image(
                 painter = painterResource(
@@ -38,9 +43,14 @@ fun PokemonType(typeColoursEnum: TypeColoursEnum) {
                     .height(20.dp)
             )
 
-            Text(text = typeColoursEnum.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(
-                Locale.getDefault()) else it.toString() },
-            modifier = Modifier.padding(horizontal = 4.dp))
+            Text(
+                text = typeColoursEnum.name.lowercase().replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                },
+                modifier = Modifier.padding(horizontal = 4.dp)
+            )
         }
     }
 }

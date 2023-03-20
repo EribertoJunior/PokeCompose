@@ -77,7 +77,6 @@ fun PokemonItem(
                         modifier = Modifier
                             .size(130.dp)
                             .align(CenterHorizontally),
-                        /*.clip(CircleShape)*/
                         contentScale = ContentScale.Crop,
                     )
                     Text(
