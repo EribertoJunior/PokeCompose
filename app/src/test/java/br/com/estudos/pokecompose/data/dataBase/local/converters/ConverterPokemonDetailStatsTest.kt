@@ -11,7 +11,7 @@ class ConverterPokemonDetailStatsTest {
     private var converterPokemonDetailStats = spyk(ConverterPokemonDetailStats())
 
     @Test
-    fun `deve retornar um jsonArray quando uma lista de PokemonDetailStats for passada`() {
+    fun `should return a jsonArray when a list of Pokemon Detailed Stats is passed`() {
 
         val jsonArray = "[{\"baseStat\":0,\"effort\":0,\"stat\":{\"name\":\"stat\",\"url\":\"/321\"}}]"
 
@@ -26,7 +26,7 @@ class ConverterPokemonDetailStatsTest {
     }
 
     @Test
-    fun `deve retornar uma lista de PokemonDetailStats quando um jsonArray for passada`() {
+    fun `should return a list of PokemonDetailStats when a jsonArray is passed`() {
 
         val jsonArray = "[{\"baseStat\":0,\"effort\":0,\"stat\":{\"name\":\"stat\",\"url\":\"/321\"}}]"
 

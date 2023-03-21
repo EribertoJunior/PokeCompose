@@ -32,7 +32,7 @@ class DetailRepositoryImplTest {
     }
 
     @Test
-    fun `deve retornar um PokemonAndDetail quando localDataSource retornar um PokemonAndDetail`() {
+    fun `should return a PokemonAndDetail when localDataSource returns a PokemonAndDetail`() {
         val pokemonAndDetail = listPokemonSample[0]
 
         every { localDataSource.searchPokemonByName(any()) } answers {
@@ -49,7 +49,7 @@ class DetailRepositoryImplTest {
     }
 
     @Test
-    fun `deve retornar NoSuchElementException quando nao for retornado um PokemonAndDetail do localDataSource`() {
+    fun `should return NoSuchElementException when a PokemonAndDetail from localDataSource is not returned`() {
         every { localDataSource.searchPokemonByName(any()) } answers {
             flow {}
         }

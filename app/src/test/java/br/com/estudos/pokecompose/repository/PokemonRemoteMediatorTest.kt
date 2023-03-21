@@ -34,7 +34,7 @@ internal class PokemonRemoteMediatorTest {
     }
 
     @Test
-    fun `refresh Load Returns SuccessResult When More Data Is Present()`() {
+    fun `refresh Load Returns SuccessResult When More Data Is Present`() {
 
         coEvery { response.results } answers { mockk(relaxed = true) }
         coEvery { response.previous } answers { null }

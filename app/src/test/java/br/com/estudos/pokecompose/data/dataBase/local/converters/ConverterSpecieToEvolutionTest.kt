@@ -10,7 +10,7 @@ class ConverterSpecieToEvolutionTest {
     private var converterSpecieToEvolution = spyk(ConverterSpecieToEvolution())
 
     @Test
-    fun `deve retornar um jsonArray quando uma lista de SpecieToEvolution for passada`() {
+    fun `should return a jsonArray when a SpecieToEvolution list is passed`() {
 
         val jsonArray = "[{\"name\":\"name\",\"imageUrl\":\"/321\"}]"
         val listOf = listOf(
@@ -24,7 +24,7 @@ class ConverterSpecieToEvolutionTest {
     }
 
     @Test
-    fun `deve retornar uma lista de SpecieToEvolution quando um jsonArray for passada`() {
+    fun `should return a list of SpecieToEvolution when a jsonArray is passed`() {
 
         val jsonArray = "[{\"name\":\"name\",\"imageUrl\":\"/321\"}]"
 

@@ -222,7 +222,6 @@ fun DetailsScreen(pokemonAndDetail: PokemonAndDetail) {
                         modifier = Modifier
                             .size(100.dp)
                             .align(CenterVertically),
-                        /*.clip(CircleShape)*/
                         contentScale = ContentScale.Crop,
                     )
                 }

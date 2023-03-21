@@ -45,7 +45,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar um Flow de PokemonAndDetail quando pokemonDao retornar um Flow de PokemonAndDetail`() {
+    fun `must return a Flow of PokemonAndDetail when pokemonDao returns a Flow of PokemonAndDetail`() {
         val pokemonAndDetail = flow<PokemonAndDetail> { emit(mockk(relaxed = true)) }
 
         coEvery { pokemonDao.searchPokemonByName(any()) } answers { pokemonAndDetail }
@@ -57,7 +57,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve deletar todos os pokemons`() {
+    fun `must delete all pokemons`() {
 
         coEvery { pokemonDao.deleteAll() } answers {}
 
@@ -68,7 +68,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar uma lista de pokemons`() {
+    fun `must save a list of pokemons`() {
 
         coEvery { pokemonDao.saveAll(any()) } answers {}
 
@@ -79,7 +79,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar um pokemon`() {
+    fun `must save a pokemon`() {
 
         coEvery { pokemonDao.save(any()) } answers {}
 
@@ -90,7 +90,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar uma lista de RemoteKey`() {
+    fun `must save a list of RemoteKey`() {
 
         coEvery { pokemonRemoteKeyDao.saveAll(any()) } answers {}
 
@@ -101,7 +101,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar um PokemonRemoteKey quando pokemonRemoteKeyDao retornar um PokemonRemoteKey`() {
+    fun `should return a PokemonRemoteKey when pokemonRemoteKeyDao returns a PokemonRemoteKey`() {
 
         val pokemonRemoteKey = mockk<PokemonRemoteKey>(relaxed = true)
 
@@ -116,7 +116,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve deletar todos os RemoteKey`() {
+    fun `must delete all RemoteKey`() {
 
         coEvery { pokemonRemoteKeyDao.deleteAll() } answers {}
 
@@ -127,7 +127,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar um RemoteKey`() {
+    fun `must save a RemoteKey`() {
 
         coEvery { pokemonRemoteKeyDao.save(any()) } answers {}
 
@@ -138,7 +138,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar uma lista de PokemonDetail`() {
+    fun `must save a list of PokemonDetail`() {
 
         coEvery { pokemonDetailDao.saveAll(any()) } answers {}
 
@@ -149,7 +149,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar uma lista de PokemonSpecies`() {
+    fun `must save a list of PokemonSpecies`() {
 
         coEvery { pokemonSpeciesDao.saveAllSpecie(any()) } answers {}
 
@@ -160,7 +160,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar uma lista de saveAllEvolutionChain`() {
+    fun `should save a list of saveAllEvolutionChain`() {
 
         coEvery { evolutionChainDao.saveAll(any()) } answers {}
 
@@ -171,7 +171,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve salvar um saveAllEvolutionChain`() {
+    fun `must save a saveAllEvolutionChain`() {
 
         coEvery { evolutionChainDao.save(any()) } answers {}
 
@@ -182,7 +182,7 @@ class LocalDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar um EvolutionChain quando pokemonRemoteKeyDao retornar um EvolutionChain`() {
+    fun `should return an Evolution Chain when pokemonRemoteKeyDao returns an Evolution Chain`() {
 
         val pokemonRemoteKey = mockk<EvolutionChain>(relaxed = true)
 

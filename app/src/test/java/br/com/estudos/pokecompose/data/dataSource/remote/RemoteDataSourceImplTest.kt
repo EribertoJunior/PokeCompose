@@ -10,9 +10,8 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -33,7 +32,7 @@ class RemoteDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar ListPokemonRemote quando PokemonService retornar um ListPokemonRemote`() {
+    fun `should return ListPokemonRemote when PokemonService returns a ListPokemonRemote`() {
 
         val listPokemonRemote = mockk<ListPokemonRemote>(relaxed = true)
 
@@ -46,7 +45,7 @@ class RemoteDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar PokemonDetailRemote quando PokemonService retornar um PokemonDetailRemote`() {
+    fun `should return PokemonDetailRemote when PokemonService returns a PokemonDetailRemote`() {
 
         val pokemonDetailRemote = mockk<PokemonDetailRemote>(relaxed = true)
 
@@ -59,7 +58,7 @@ class RemoteDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar SpeciesRemote quando PokemonService retornar um SpeciesRemote`() {
+    fun `should return Species Remote when PokemonService returns a Species Remote`() {
 
         val speciesRemote = mockk<SpeciesRemote>(relaxed = true)
 
@@ -72,7 +71,7 @@ class RemoteDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar null quando PokemonService nao retornar um SpeciesRemote`() {
+    fun `should return null when PokemonService does not return a SpeciesRemote`() {
 
         coEvery { pokemonService.searchPokemonSpecie(any()) } answers { null }
 
@@ -83,7 +82,7 @@ class RemoteDataSourceImplTest {
     }
 
     @Test
-    fun `deve retornar EvolutionChainRemote quando PokemonService retornar um EvolutionChainRemote`() {
+    fun `must return EvolutionChainRemote when PokemonService returns an EvolutionChainRemote`() {
 
         val evolutionChainRemote = mockk<EvolutionChainRemote>(relaxed = true)
 

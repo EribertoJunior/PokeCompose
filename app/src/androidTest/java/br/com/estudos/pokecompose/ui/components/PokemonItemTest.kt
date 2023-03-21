@@ -16,7 +16,7 @@ class PokemonItemTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    val pokemonAndDetail get() = PokemonAndDetail(
+    private val pokemonAndDetail get() = PokemonAndDetail(
         pokemon = Pokemon(
             pokemonId = 10,
             name = "Teste",

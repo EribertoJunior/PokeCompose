@@ -106,7 +106,6 @@ class PokemonRemoteMediator(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            //Log.e(TAG, "load: ${e.message}")
             MediatorResult.Error(e)
         }
     }
@@ -175,7 +174,6 @@ class PokemonRemoteMediator(
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                //Log.e(TAG, "findSpeciePokemon: ${e.message}")
             }
         }
     }
@@ -195,7 +193,6 @@ class PokemonRemoteMediator(
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        //Log.e(TAG, "findEvolutionChainPokemon: ${e.message}")
                     }
                 }
             }

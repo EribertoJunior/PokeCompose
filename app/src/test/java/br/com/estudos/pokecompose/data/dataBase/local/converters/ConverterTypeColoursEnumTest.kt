@@ -1,9 +1,8 @@
 package br.com.estudos.pokecompose.data.dataBase.local.converters
 
-import br.com.estudos.pokecompose.data.dataBase.local.entities.SpecieToEvolution
 import br.com.estudos.pokecompose.data.model.local.enums.TypeColoursEnum
 import io.mockk.spyk
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class ConverterTypeColoursEnumTest {
@@ -11,7 +10,7 @@ class ConverterTypeColoursEnumTest {
     private var converterTypeColoursEnum = spyk(ConverterTypeColoursEnum())
 
     @Test
-    fun `deve retornar um jsonArray quando uma lista de TypeColoursEnum for passada`() {
+    fun `should return a jsonArray when a list of TypeColoursEnum is passed`() {
 
         val jsonArray = "[\"DRAGON\",\"FIRE\"]"
         val listOf = listOf(
@@ -26,7 +25,7 @@ class ConverterTypeColoursEnumTest {
     }
 
     @Test
-    fun `deve retornar uma lista de TypeColoursEnum quando um jsonArray for passada`() {
+    fun `should return a list of TypeColoursEnum when a jsonArray is passed`() {
 
         val jsonArray = "[\"DRAGON\",\"FIRE\"]"
 
